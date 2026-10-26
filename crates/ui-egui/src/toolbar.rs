@@ -776,7 +776,7 @@ fn save_as_named(app: &mut SolveApp, name: &str, extension: &str) {
     });
 }
 
-/// File > Download design (browser build): the open design as a `.solidcraft` file download.
+/// File > Download design (browser build): the open design as a `.sc` file download.
 fn download_design(app: &mut SolveApp) {
     let name = format!("{}.{}", app.session.doc.name, solidcraft_engine::io::DESIGN_EXT);
     let result = app
@@ -2261,6 +2261,49 @@ mod header_report_tests {
         h.app.home.open = false;
         assert!(FileAction::Save.enabled(&h.app));
         assert!(FileAction::Export("step").enabled(&h.app));
+    }
+
+    /// New designs are saved as `.sc`. A design opened from a `.solidcraft` file is saved back to
+    /// that file by Save (no rename behind the user's back); Save As offers `.sc` and leaves it.
+    #[test]
+    fn save_offers_sc_and_keeps_an_opened_solidcraft_file() {
+        let mut h = crate::scenario::Harness::new();
+        let offered = std::rc::Rc::new(std::cell::RefCell::new(Vec::<(String, Vec<String>)>::new()));
+        let (seen, dir) = (offered.clone(), h.dir.clone());
+        h.app.services.pick_save = Some(Box::new(move |name, extensions| {
+            seen.borrow_mut().push((name.to_string(), extensions.iter().map(|e| e.to_string()).collect()));
+            let path = dir.join(name).to_string_lossy().into_owned();
+            Box::pin(std::future::ready(Some(path)))
+        }));
+        h.app.run("solid.box", json!({"length":2,"width":3,"height":4})).unwrap();
+        h.app.session.doc_mut().name = "Bracket".into();
+        FileAction::Save.run(&mut h.app);
+        h.frames(3);
+        h.settle();
+        assert_eq!(offered.borrow().last().map(|(n, e)| (n.as_str(), e.clone())), Some(("Bracket.sc", vec!["sc".to_string(), "json".to_string()])));
+        assert!(h.dir.join("Bracket.sc").is_file(), "a new design is saved as .sc");
+
+        // A design from an earlier release.
+        let old = h.dir.join("Old.solidcraft");
+        std::fs::rename(h.dir.join("Bracket.sc"), &old).unwrap();
+        h.app.run("doc.open", json!({"path": old.to_string_lossy()})).unwrap();
+        h.app.run("solid.box", json!({"length":1,"width":1,"height":1})).unwrap();
+        let asked = offered.borrow().len();
+        FileAction::Save.run(&mut h.app);
+        h.frames(3);
+        h.settle();
+        assert_eq!(offered.borrow().len(), asked, "Save writes the opened file without asking");
+        assert_eq!(h.app.session.path.as_deref(), Some(old.to_string_lossy().as_ref()));
+        assert!(!h.app.session.is_dirty());
+        assert_eq!(solidcraft_engine::io::read_design(&std::fs::read(&old).unwrap()).unwrap().features.len(), 2);
+        assert!(!h.dir.join("Old.sc").exists() && !h.dir.join("Bracket.sc").exists(), "nothing renamed");
+
+        FileAction::SaveAs.run(&mut h.app);
+        h.frames(3);
+        h.settle();
+        let name = offered.borrow().last().map(|(n, _)| n.clone()).unwrap();
+        assert!(name.ends_with(".sc"), "Save As offers .sc: {name}");
+        assert!(h.dir.join(&name).is_file() && old.is_file(), "Save As leaves the .solidcraft file as it was");
     }
 
     #[test]

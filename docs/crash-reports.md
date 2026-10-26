@@ -40,7 +40,7 @@ All of these read the same folder:
 
 **Reproduce:** `solidcraft-cli crashes replay <id>` opens the report's design, runs its
 commands, and reports whether the same internal error happens again (same place and message).
-Without the CLI, run `solidcraft-cli run <report>/replay.json --in <report>/design.solidcraft`.
+Without the CLI, run `solidcraft-cli run <report>/replay.json --in <report>/design.sc`.
 A fixed crash turns into a regression test with the same two files.
 
 **Check that reporting works:** with `SOLIDCRAFT_CRASH_TEST=1` set for the app, the command
@@ -77,7 +77,7 @@ A folder `crashes/<YYYYMMDD-HHMMSS>-<signature>/`:
   - `native` (Windows): what the exception filter caught: `code`, `name`, `address`, `module`,
     `offset` (into the module), `detail` (for an access violation, the address read or written)
     and `thread`. The `backtrace` then shows the same in two lines.
-- `design.solidcraft`: the design the replay starts from
+- `design.sc`: the design the replay starts from
 - `replay.json`: `{"commands": [{command, params}, …]}`
 - `minidump.dmp` (Windows, native crashes): the threads' stacks and the loaded modules at the
   crash, for WinDbg or Visual Studio. It holds stack memory only, not the design, but it stays
