@@ -504,8 +504,15 @@ pub(crate) fn layout_preview(ui: &mut Ui, state: LayoutPreview) {
 pub(crate) fn tab_accent_strip(ui: &mut Ui) {
     let t = Tokens::get();
     super::text(ui, crate::i18n::tr("prefs.tab_accent_note"), super::Text::Hint("tab_accent"));
-    let names =
-        [("MODEL", "Model"), ("SURFACE", "Surface"), ("MESH", "Mesh"), ("FORM", "Form"), ("SHEET METAL", "Sheet Metal"), ("RENDER", "Render")];
+    let names = [
+        ("MODEL", "Model"),
+        ("SURFACE", "Surface"),
+        ("MESH", "Mesh"),
+        ("FORM", "Form"),
+        ("SHEET METAL", "Sheet Metal"),
+        ("DRAWING", "Drawing"),
+        ("RENDER", "Render"),
+    ];
     let (r, _) = ui.allocate_exact_size(vec2(dimension(ui.available_width()), t.space_24 + t.space_8), Sense::hover());
     let width = r.width() / names.len() as f32;
     for (i, (name, display_label)) in names.iter().enumerate() {

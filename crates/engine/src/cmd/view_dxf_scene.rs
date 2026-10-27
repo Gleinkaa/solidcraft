@@ -93,9 +93,11 @@ struct Shared {
     tree: Bvh,
     edges: Vec<Edge>,
     incident: Vec<usize>,
+    /// Per mesh edge: a tangent (G1) seam, drawn as a thin light edge or left out.
+    tangent: Vec<bool>,
 }
 impl Shared {
-    fn new(mesh: &Arc<Mesh>, eps: f64, progress: &Stage) -> Result<Self, &'static str> {
+    fn new(mesh: &Arc<Mesh>, tangent: &[bool], eps: f64, progress: &Stage) -> Result<Self, &'static str> {
         let mut boxes = Vec::with_capacity(mesh.triangles.len());
         let mut sides = Vec::new();
         for (i, indices) in mesh.triangles.iter().enumerate() {
@@ -134,7 +136,7 @@ impl Shared {
                 e.end = incident.len();
             }
         }
-        Ok(Self { mesh: mesh.clone(), tree, edges, incident })
+        Ok(Self { mesh: mesh.clone(), tree, edges, incident, tangent: tangent.to_vec() })
     }
 }
 
@@ -182,14 +184,27 @@ impl<'a> View<'a> {
 
 struct Projected {
     nodes: Vec<Aabb3>,
-    segments: Vec<(Vec3, Vec3)>,
+    /// Projected straight segments and whether each is a tangent seam.
+    segments: Vec<(Vec3, Vec3, bool)>,
 }
 impl Projected {
-    fn new(shared: &Shared, placed: &Placement, view: &View<'_>, eps: f64, segments: &AtomicUsize, progress: &Stage) -> Result<Self, &'static str> {
+    fn new(
+        shared: &Shared,
+        placed: &Placement,
+        view: &View<'_>,
+        eps: f64,
+        cut: Option<(Vec3, Vec3)>,
+        segments: &AtomicUsize,
+        progress: &Stage,
+    ) -> Result<Self, &'static str> {
         let mut nodes = vec![Aabb3::EMPTY; shared.tree.nodes.len()];
         // Exact projected leaf bounds avoid false near-eye errors from empty corners of a
         // rotated model-space box. Interior bounds are just unions of the child bounds.
-        let mut front = vec![false; shared.mesh.triangles.len()];
+        // `None` is a triangle with no projected area (repeated vertices at a fan's pole, or a
+        // camera looking along the triangle's plane). It has no facing: counting it as
+        // back-facing made every edge it shares with a front-facing triangle a false silhouette,
+        // which drew tessellation fan edges as a star of lines around a cone's apex.
+        let mut facing: Vec<Option<bool>> = vec![None; shared.mesh.triangles.len()];
         for (i, node) in shared.tree.nodes.iter().enumerate().rev() {
             if i.is_multiple_of(1024) {
                 progress.check()?;
@@ -201,9 +216,12 @@ impl Projected {
                 for id in shared.tree.ids.get(node.start..node.end).ok_or("invalid export tree")? {
                     let p = view.triangle(shared, placed, *id)?;
                     b = b.union(&bounds(p));
-                    if let Some(f) = front.get_mut(*id) {
+                    if let Some(f) = facing.get_mut(*id) {
                         // A positive projective scale preserves the projected winding.
-                        *f = super::cross(xy(p[1] - p[0]), xy(p[2] - p[0])) > 0.;
+                        let e1 = xy(p[1] - p[0]);
+                        let e2 = xy(p[2] - p[0]);
+                        let winding = super::cross(e1, e2);
+                        *f = (e1.len() > 0. && e2.len() > 0. && winding.abs() > e1.len() * e2.len() * 1e-12).then_some(winding > 0.);
                     }
                 }
             }
@@ -212,13 +230,13 @@ impl Projected {
             }
         }
         let mut result = Vec::new();
-        let mut add = |a: Vec3, b: Vec3| -> Result<(), &'static str> {
+        let mut add = |a: Vec3, b: Vec3, tangent: bool| -> Result<(), &'static str> {
             let (a, b) = (view.project(apply_point(&placed.transform, a))?, view.project(apply_point(&placed.transform, b))?);
             if xy(a).dist(xy(b)) > eps {
                 if !claim(segments, 1, MAX_SEGMENTS) {
                     return Err(TOO_COMPLEX);
                 }
-                result.push((a, b));
+                result.push((a, b, tangent));
             }
             Ok(())
         };
@@ -226,9 +244,10 @@ impl Projected {
             if !placed.visibility.get(i).copied().unwrap_or(false) {
                 continue;
             }
+            let tangent = shared.tangent.get(i).copied().unwrap_or(false);
             for w in edge.windows(2) {
                 if let (Some(a), Some(b)) = (w.first(), w.get(1)) {
-                    add(*a, *b)?;
+                    add(*a, *b, tangent)?;
                 }
             }
         }
@@ -236,16 +255,23 @@ impl Projected {
             let mut positive = false;
             let mut negative = false;
             for id in shared.incident.get(edge.start..edge.end).ok_or("invalid export adjacency")? {
-                if front.get(*id).copied().ok_or("invalid export adjacency")? {
-                    positive = true;
-                } else {
-                    negative = true;
+                match facing.get(*id).copied().ok_or("invalid export adjacency")? {
+                    Some(true) => positive = true,
+                    Some(false) => negative = true,
+                    // A triangle with no projected area neither faces towards nor away from the
+                    // view, so it cannot make the edge beside it a silhouette.
+                    None => {}
                 }
             }
             if (positive && negative) || edge.end - edge.start == 1 {
                 let a = shared.mesh.positions.get(edge.vertices[0] as usize).ok_or("invalid silhouette")?;
                 let b = shared.mesh.positions.get(edge.vertices[1] as usize).ok_or("invalid silhouette")?;
-                add(*a, *b)?;
+                // An open edge on the cutting plane is the cut boundary, which the drawing emits
+                // as its own outline: drawing it here too would double it as a mesh crease.
+                let on_cut = cut.is_some_and(|(point, normal)| (*a - point).dot(normal).abs() <= eps && (*b - point).dot(normal).abs() <= eps);
+                if !on_cut {
+                    add(*a, *b, false)?;
+                }
             }
         }
         Ok(Self { nodes, segments: result })
@@ -427,9 +453,10 @@ pub(super) fn drawing(scene: &Scene, sketch: &[Part], cam: &Camera) -> Result<Dr
         return Err("view exceeds export memory budget; hide bodies or increase tolerance");
     }
     let progress = Stage::new("dxf_index", scene.meshes.len());
-    let shared = parallel(&scene.meshes, |m| {
+    let meshes: Vec<(&Arc<Mesh>, &Vec<bool>)> = scene.meshes.iter().zip(&scene.tangent).collect();
+    let shared = parallel(&meshes, |(m, tangent)| {
         progress.check()?;
-        let shared = Shared::new(m, eps, &progress)?;
+        let shared = Shared::new(m, tangent, eps, &progress)?;
         progress.advance(1)?;
         Ok(shared)
     })?;
@@ -442,7 +469,7 @@ pub(super) fn drawing(scene: &Scene, sketch: &[Part], cam: &Camera) -> Result<Dr
     let progress = Stage::new("dxf_projection", scene.placements.len());
     let projected = parallel(&scene.placements, |p| {
         progress.check()?;
-        let projected = Projected::new(shared.get(p.mesh).ok_or("missing shared geometry")?, p, &view, eps, &count, &progress)?;
+        let projected = Projected::new(shared.get(p.mesh).ok_or("missing shared geometry")?, p, &view, eps, scene.cut, &count, &progress)?;
         progress.advance(1)?;
         Ok(projected)
     })?;
@@ -464,7 +491,12 @@ pub(super) fn drawing(scene: &Scene, sketch: &[Part], cam: &Camera) -> Result<Dr
     let segment_count = count.load(Ordering::Relaxed);
     let projection_ms = start.elapsed().as_secs_f64() * 1000.;
     let start = Instant::now();
-    let depth_eps = if cam.fov > 0. { 1e-8 / cam.distance } else { eps };
+    // A drawing sheet's views are orthographic. A B-rep edge lies exactly on the faces beside it,
+    // and triangle roundoff there must not make half a chord or a whole circle "occluded": a
+    // micrometre of depth noise is invisible on paper, an alternating visible/hidden split of a
+    // circle is not. Camera-space depth is in millimetres, so the sheet's own chord tolerance is
+    // the right scale for the slack.
+    let depth_eps = if cam.fov > 0. { 1e-8 / cam.distance } else { (scale * 1e-5).max(eps) };
     let global = AtomicUsize::new(WORK);
     let output = AtomicUsize::new(0);
     let chunks = projected.iter().flat_map(|p| p.segments.chunks(128)).collect::<Vec<_>>();
@@ -473,7 +505,7 @@ pub(super) fn drawing(scene: &Scene, sketch: &[Part], cam: &Camera) -> Result<Dr
         progress.check()?;
         let mut budget = Budget::new(&global, &progress);
         let mut lines = Vec::new();
-        for &(a, b) in *chunk {
+        for &(a, b, tangent) in *chunk {
             let mut query = Query {
                 shared: &shared,
                 scene,
@@ -495,7 +527,7 @@ pub(super) fn drawing(scene: &Scene, sketch: &[Part], cam: &Camera) -> Result<Dr
                     if !claim(&output, 1, MAX_LINES) {
                         return Err(TOO_COMPLEX);
                     }
-                    lines.push(Line { a: p, b: q, hidden });
+                    lines.push(Line { a: p, b: q, hidden, tangent });
                 }
                 Ok(())
             };
@@ -643,7 +675,8 @@ mod tests {
             placed.edges = placed.edges.iter().map(|e| e.iter().map(|p| apply_point(&transform, *p)).collect()).collect();
             flat.push(placed);
         }
-        let scene = Scene { meshes: vec![Arc::new(mesh)], placements, triangles: 36, bytes: 0 };
+        let tangent = vec![vec![false; mesh.edges.len()]];
+        let scene = Scene { meshes: vec![Arc::new(mesh)], placements, triangles: 36, bytes: 0, curves: vec![Vec::new()], tangent, cut: None };
         for (yaw, pitch, roll) in [(0., std::f64::consts::FRAC_PI_2, 0.), (0.7, 0.4, 0.2), (0., 0., 0.)] {
             for fov in [0., 0.6] {
                 let cam = Camera { target: Vec3::new(4., 3., 1.), yaw, pitch, roll, fov, distance: 100., ..Default::default() };
@@ -683,7 +716,8 @@ mod tests {
                 visibility: vec![true; 4],
             })
             .collect();
-        let scene = Scene { meshes: vec![Arc::new(mesh)], placements, triangles: 1_200_000, bytes: 0 };
+        let tangent = vec![vec![false; 4]];
+        let scene = Scene { meshes: vec![Arc::new(mesh)], placements, triangles: 1_200_000, bytes: 0, curves: vec![Vec::new()], tangent, cut: None };
         let mut cam = Camera { target: Vec3::new(95., 55., 0.), fov: 0., distance: 300., ..Default::default() };
         cam.set_view(StandardView::Top);
         let result = drawing(&scene, &[], &cam).unwrap();

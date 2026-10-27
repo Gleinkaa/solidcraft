@@ -1154,6 +1154,7 @@ pub fn overlay(app: &mut SolveApp, painter: &egui::Painter, rect: Rect, d: &Dial
 /// The flat pattern's own 2D view: a top-down orthographic camera over the flat plane (x right,
 /// y up, millimetres), so the shared navigation moves it like any other camera. The Design
 /// camera is left alone while this has the viewport.
+#[derive(Clone, Debug)]
 pub struct FlatView {
     pub cam: solidcraft_engine::render::Camera,
     /// The camera frames the pattern; cleared by Fit and Home, and whenever the dialog is closed.
@@ -1170,6 +1171,19 @@ impl Default for FlatView {
         cam.fov = 0.0;
         cam.up = solidcraft_engine::render::UpAxis::Z;
         FlatView { cam, fitted: false, perforation_key: None, perforations: Vec::new() }
+    }
+}
+
+/// Two views are the same when they frame alike and cache the same pattern (the cache key's
+/// model is compared by identity).
+impl PartialEq for FlatView {
+    fn eq(&self, other: &Self) -> bool {
+        let same_key = match (&self.perforation_key, &other.perforation_key) {
+            (Some((a, ka)), Some((b, kb))) => std::sync::Weak::ptr_eq(a, b) && ka == kb,
+            (None, None) => true,
+            _ => false,
+        };
+        self.cam == other.cam && self.fitted == other.fitted && same_key && self.perforations == other.perforations
     }
 }
 
@@ -1199,7 +1213,7 @@ impl FlatView {
     }
 
     /// Frame the pattern's bounds `lo..hi` in `area`, the part of `rect` the command panel leaves.
-    fn fit(&mut self, rect: Rect, area: Rect, lo: (f64, f64), hi: (f64, f64)) {
+    pub(crate) fn fit(&mut self, rect: Rect, area: Rect, lo: (f64, f64), hi: (f64, f64)) {
         let scale = (f64::from(area.width()) / (hi.0 - lo.0)).min(f64::from(area.height()) / (hi.1 - lo.1));
         self.cam.target.x = (lo.0 + hi.0) * 0.5 - f64::from(area.center().x - rect.center().x) / scale;
         self.cam.target.y = (lo.1 + hi.1) * 0.5 + f64::from(area.center().y - rect.center().y) / scale;

@@ -376,14 +376,24 @@ pub fn items(app: &SolveApp, target: &Target) -> Vec<Item> {
         Target::Toolbar => crate::toolbar_custom::toolbar_items(app),
         Target::Workspace => {
             let rendering = crate::render_workspace::active(app);
+            let drawing = crate::drawing_workspace::active(app);
+            let ready = app.session.active_sketch.is_none() && app.tool.is_none() && app.dialog.is_none() && !app.file_load.busy();
             let mut v = vec![
-                act("ui.workspace.design", "Design", "ws_design").with(json!({"workspace":"design"})).key(if rendering { "" } else { "current" }),
+                act("ui.workspace.design", "Design", "ws_design").with(json!({"workspace":"design"})).key(if rendering || drawing {
+                    ""
+                } else {
+                    "current"
+                }),
                 act("ui.workspace.render", "Render", "ws_render")
                     .with(json!({"workspace":"render"}))
                     .key(if rendering { "current" } else { "" })
-                    .on(app.session.active_sketch.is_none() && app.tool.is_none() && app.dialog.is_none() && !app.file_load.busy()),
+                    .on(ready),
+                act("ui.workspace.drawing", "Drawing", "ws_drawing")
+                    .with(json!({"workspace":"drawing"}))
+                    .key(if drawing { "current" } else { "" })
+                    .on(ready),
             ];
-            for (w, icon) in [("Animation", "ws_animate"), ("Simulation", ""), ("Manufacture", ""), ("Drawing", "ws_drawing")] {
+            for (w, icon) in [("Animation", "ws_animate"), ("Simulation", ""), ("Manufacture", "")] {
                 v.push(act("ui.workspace", w, icon).key("coming later").on(false));
             }
             v
@@ -1339,11 +1349,35 @@ pub fn run_item(app: &mut SolveApp, item: &Item, at: Pos2) {
         "ui.toolbarPin" | "ui.toolbarRemove" | "ui.toolbarReset" | "ui.toolbarCustomize" | "ui.shortcutPin" => {
             crate::toolbar_custom::run(app, &item.id, &p)
         }
-        "ui.workspace" | "ui.workspace.design" | "ui.workspace.render" => {
-            if let Some(workspace) = p.get("workspace").and_then(Value::as_str)
-                && let Err(e) = crate::render_workspace::enter(app, workspace == "render")
-            {
-                app.set_status(e, true);
+        "ui.workspace" | "ui.workspace.design" | "ui.workspace.render" | "ui.workspace.drawing" => {
+            if let Some(workspace) = p.get("workspace").and_then(Value::as_str) {
+                let result = match workspace {
+                    "render" => {
+                        if crate::drawing_workspace::active(app) {
+                            let _ = crate::drawing_workspace::enter(app, false);
+                        }
+                        crate::render_workspace::enter(app, true)
+                    }
+                    "drawing" => {
+                        if crate::render_workspace::active(app) {
+                            let _ = crate::render_workspace::enter(app, false);
+                        }
+                        crate::drawing_workspace::enter(app, true)
+                    }
+                    _ => {
+                        let mut result = Ok(());
+                        if crate::drawing_workspace::active(app) {
+                            result = crate::drawing_workspace::enter(app, false);
+                        }
+                        if crate::render_workspace::active(app) {
+                            result = crate::render_workspace::enter(app, false);
+                        }
+                        result
+                    }
+                };
+                if let Err(e) = result {
+                    app.set_status(e, true);
+                }
             }
         }
         "ui.findJoint" => {
@@ -2469,28 +2503,45 @@ mod workspace_menu_tests {
         h.call("ui.resize", json!({"width":1200,"height":1000}));
         h.step(&json!({"click":{"handle":"ribbon:workspace"}})).unwrap();
         let opener = rect_of("ribbon:workspace").unwrap();
-        let rows: Vec<_> = ["design", "render", "animation", "simulation", "manufacture", "drawing"]
+        let rows: Vec<_> = ["design", "render", "drawing", "animation", "simulation", "manufacture"]
             .iter()
             .map(|slug| rect_of(&format!("workspace:menu:{slug}")).unwrap())
             .collect();
         assert!(rows.windows(2).all(|pair| pair[0].bottom() <= pair[1].top()));
         assert!(rows[0].top() > opener.bottom());
         assert_eq!(rows[0].width(), 450.0);
-        assert!(items(&h.app, &Target::Workspace).iter().skip(2).all(|item| !item.enabled));
+        let items_now = items(&h.app, &Target::Workspace);
+        assert!(items_now.iter().find(|i| i.id == "ui.workspace.drawing").is_some_and(|i| i.enabled));
+        assert!(items_now.iter().skip(3).all(|item| !item.enabled), "Animation, Simulation and Manufacture stay planned");
         h.step(&json!({"click":{"handle":"workspace:menu:animation"}})).unwrap();
-        assert!(!crate::render_workspace::active(&h.app));
+        assert!(!crate::render_workspace::active(&h.app) && !crate::drawing_workspace::active(&h.app));
         assert!(h.app.viewport.context_menu.is_some());
         h.step(&json!({"click":{"handle":"workspace:menu:render"}})).unwrap();
         assert!(crate::render_workspace::active(&h.app));
         h.step(&json!({"click":{"handle":"ribbon:workspace"}})).unwrap();
         h.step(&json!({"click":{"handle":"workspace:menu:design"}})).unwrap();
         assert!(!crate::render_workspace::active(&h.app));
+        // Drawing opens its page, and Design comes back.
+        h.step(&json!({"click":{"handle":"ribbon:workspace"}})).unwrap();
+        h.step(&json!({"click":{"handle":"workspace:menu:drawing"}})).unwrap();
+        assert!(crate::drawing_workspace::active(&h.app));
+        assert_eq!(h.app.ui.tab, "DRAWING");
+        assert_eq!(crate::workspace::visible_tabs(&h.app), vec!["DRAWING"]);
+        h.step(&json!({"click":{"handle":"ribbon:workspace"}})).unwrap();
+        h.step(&json!({"click":{"handle":"workspace:menu:design"}})).unwrap();
+        assert!(!crate::drawing_workspace::active(&h.app));
+        assert_eq!(h.app.ui.tab, "MODEL");
         h.app.run("sketch.create", json!({"plane":"XY"})).unwrap();
         h.frames(2);
         h.step(&json!({"click":{"handle":"ribbon:workspace"}})).unwrap();
-        assert!(!items(&h.app, &Target::Workspace).iter().find(|i| i.id == "ui.workspace.render").unwrap().enabled);
+        let items_now = items(&h.app, &Target::Workspace);
+        assert!(!items_now.iter().find(|i| i.id == "ui.workspace.render").unwrap().enabled);
+        assert!(!items_now.iter().find(|i| i.id == "ui.workspace.drawing").unwrap().enabled);
         h.step(&json!({"click":{"handle":"workspace:menu:render"}})).unwrap();
         assert!(!crate::render_workspace::active(&h.app));
+        assert!(h.app.viewport.context_menu.is_some());
+        h.step(&json!({"click":{"handle":"workspace:menu:drawing"}})).unwrap();
+        assert!(!crate::drawing_workspace::active(&h.app));
         assert!(h.app.viewport.context_menu.is_some());
     }
 }

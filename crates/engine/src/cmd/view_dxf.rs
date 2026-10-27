@@ -2,13 +2,13 @@
 //! screen pixels, grid, selection highlights or tessellation diagonals are exported.
 
 #[path = "view_dxf_meshes.rs"]
-mod meshes;
+pub(crate) mod meshes;
 #[path = "view_dxf_progress.rs"]
 mod progress;
 #[path = "view_dxf_projection.rs"]
-mod projection;
+pub(crate) mod projection;
 #[path = "view_dxf_sketch.rs"]
-pub(super) mod sketch;
+pub(crate) mod sketch;
 
 use serde_json::{Value, json};
 use solidcraft_geom::Vec2;
@@ -58,7 +58,7 @@ fn export(s: &mut Session, p: &Value) -> Result<Value> {
     }
     let started = web_time::Instant::now();
     progress::Stage::new("dxf_meshes", 1).check().map_err(|e| bad(CMD, e))?;
-    let meshes = meshes::prepare(s, tolerance)?;
+    let meshes = meshes::prepare(s, tolerance, crate::drawing::TangentEdges::Draw, false)?;
     let prepare_ms = started.elapsed().as_secs_f64() * 1000.;
     let drawing = projection::drawing(&meshes, &sketch::parts(s, tolerance).map_err(|e| bad(CMD, e))?, &cam).map_err(|e| bad(CMD, e))?;
     let writing = progress::Stage::new("dxf_write", 1);

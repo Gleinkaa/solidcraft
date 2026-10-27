@@ -232,7 +232,8 @@ impl Config {
 
 /// Gestures are on and the mouse mode allows them.
 pub(crate) fn active(app: &SolveApp) -> bool {
-    app.preferences.mouse_gestures.enabled && app.preferences.nav == MOUSE_MODE
+    // The Drawing page is a flat sheet with its own ribbon: the modelling ring stays away.
+    !crate::drawing_workspace::active(app) && app.preferences.mouse_gestures.enabled && app.preferences.nav == MOUSE_MODE
 }
 
 /// The ring's tools in `studio` as menu items, unknown ids dropped.

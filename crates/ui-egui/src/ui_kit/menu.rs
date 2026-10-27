@@ -269,13 +269,15 @@ pub(crate) fn workspace_menu(ui: &mut egui::Ui, items: &[Item], key_row: Option<
                     "Animation" => ("animation", "ui.workspace_animation_description", None),
                     "Simulation" => ("simulation", "ui.workspace_simulation_description", None),
                     "Manufacture" => ("manufacture", "ui.workspace_manufacture_description", None),
-                    "Drawing" => ("drawing", "ui.workspace_drawing_description", None),
+                    "Drawing" => ("drawing", "ui.workspace_drawing_description", Some("ui.workspace_drawing_tabs")),
                     _ => continue,
                 };
                 let planned = tabs.is_none();
                 let current = item.shortcut == "current";
                 let (accent, soft) = if !planned && slug == "render" {
                     (t.render_fill, t.render_soft)
+                } else if !planned && slug == "drawing" {
+                    (t.sheet_fill, t.sheet_soft)
                 } else {
                     let accent = if planned { t.text_dim } else { t.accent };
                     (accent, t.panel.lerp_to_gamma(accent, 0.10))

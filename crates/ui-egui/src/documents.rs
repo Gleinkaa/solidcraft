@@ -37,6 +37,7 @@ pub struct DocSlot {
 #[derive(Clone, Debug, Default)]
 struct DocView {
     render: crate::render_workspace::ViewState,
+    drawing: crate::drawing_workspace::ViewState,
 }
 
 impl DocSlot {
@@ -92,11 +93,13 @@ impl Documents {
 }
 
 fn take_view(app: &mut SolveApp) -> DocView {
-    DocView { render: std::mem::take(&mut app.render_workspace.view) }
+    DocView { render: std::mem::take(&mut app.render_workspace.view), drawing: std::mem::take(&mut app.drawing_workspace.view) }
 }
 
 fn put_view(app: &mut SolveApp, v: DocView) {
     app.render_workspace.view = v.render;
+    app.drawing_workspace.view = v.drawing;
+    crate::drawing_workspace::cancel_build(app);
     crate::render_workspace::invalidate_images(app);
     crate::render_workspace::invalidate_scene(app);
     crate::render_workspace::sync_backend(app);
@@ -106,6 +109,9 @@ fn put_view(app: &mut SolveApp, v: DocView) {
 fn swap_in(app: &mut SolveApp, mut slot: DocSlot) -> DocSlot {
     if crate::render_workspace::active(app) {
         let _ = crate::render_workspace::enter(app, false);
+    }
+    if crate::drawing_workspace::active(app) {
+        let _ = crate::drawing_workspace::enter(app, false);
     }
     // Whatever was going on in the design leaves with it.
     crate::sketch_text_move::cancel_drag(app);
@@ -275,6 +281,7 @@ pub fn adopt(app: &mut SolveApp, session: Session) {
         crate::sketch_attachment_ui::clear(app);
         app.session.replace_design(session);
         crate::render_workspace::reset_document(app);
+        crate::drawing_workspace::reset_document(app);
         app.session.invalidate_view(rev);
         app.cam = Camera::default();
         app.fit_view();
@@ -366,6 +373,7 @@ pub fn close(app: &mut SolveApp, i: usize, force: bool) {
         app.cam = Camera::default();
         app.fit_view();
         put_view(app, DocView::default());
+        crate::drawing_workspace::reset_document(app);
         app.docs = Documents::default();
         app.home.open = true;
         return;

@@ -31,7 +31,10 @@ pub mod urdf;
 pub mod vfs;
 
 pub use dxf::{read_dxf, write_dxf};
-pub use dxf_out::{DxfEntity, DxfLayer, DxfLinetype, DxfShape, loop_shapes, seg_shape, write_dxf_drawing};
+pub use dxf_out::{
+    DIM_STYLE, DxfDimKind, DxfDimension, DxfEntity, DxfHatch, DxfLayer, DxfLayout, DxfLeader, DxfLinetype, DxfLineweight, DxfShape, DxfTextAnchor,
+    loop_shapes, seg_shape, write_dxf_drawing, write_dxf_drawing_full, write_dxf_drawing_layout, write_dxf_drawing_with,
+};
 pub use legacy_dir::{APP_ID, LEGACY_APP_ID, adopt_legacy_dir, legacy_flatpak_path};
 pub use safe_write::{backup_path, write_atomic};
 pub use sketch2d::{Geom2, MAX_DRAWING_BYTES};
@@ -40,6 +43,8 @@ mod gltf_in;
 pub use gltf_in::{GltfImport, Loader, MAX_GLTF_BYTES, MeshPlan, PlanPlace, glb_container, is_gltf_path, read_gltf};
 mod obj;
 pub use obj::read_obj;
+mod pdf_out;
+pub use pdf_out::{PdfError, PdfItem, PdfPage, TextAnchor, text_width_mm, write_pdf};
 pub use threemf::{MAX_3MF_BYTES, MeshObject, model_xml, model_xml_with, read_3mf, weld, write_3mf, write_3mf_with};
 pub use urdf::{UrdfOptions, UrdfPackage, urdf};
 

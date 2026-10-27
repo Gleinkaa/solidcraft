@@ -1,0 +1,12 @@
+[
+  {"call": "engine.execute", "params": {"command": "solid.box", "params": {"length": 40, "width": 20, "height": 10}}},
+  {"click": {"handle": "ribbon:workspace"}},
+  {"call": "ui.menuPick", "params": {"item": "ui.workspace.drawing"}},
+  {"expect": {"tab": "DRAWING"}},
+  {"until": {"drawing": {"active": true, "building": false, "views": ["front", "top", "right"], "error": null}}},
+  {"expect": {"shown_handles": ["drawing:paper", "drawing:scale", "drawing:update_views", "drawing:export_pdf"]}},
+  {"click": {"handle": "drawing:scale"}},
+  {"until": {"shown_handles": ["drawing:scale:auto", "drawing:scale:1_2"]}},
+  {"call": "ui.workspace", "params": {"workspace": "design"}},
+  {"expect": {"tab": "MODEL", "errors": 0}}
+]

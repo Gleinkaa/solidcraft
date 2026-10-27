@@ -969,6 +969,7 @@ fn the_workspace_menu_lists_design_and_render_and_greys_future_workspaces() {
     let items = context_menu::items(&app, &Target::Workspace);
     assert!(find(&items, "Design").enabled);
     assert!(find(&items, "Render").enabled);
+    assert!(find(&items, "Drawing").enabled, "the Drawing workspace is reachable");
     assert!(!find(&items, "Animation").enabled);
     assert!(!items.iter().any(|i| i.label.contains("Generative")));
 }

@@ -14,7 +14,7 @@ use crate::view::{sketch_curve_visible, sketch_shown};
 const MAX_POINTS: usize = 4_000_000;
 
 /// One connected run of a sketch curve in world coordinates.
-pub(super) struct Part {
+pub(crate) struct Part {
     pub points: Vec<Vec3>,
     /// Drawn over the bodies (the sketch being edited) rather than hidden behind them.
     pub on_top: bool,
@@ -50,7 +50,7 @@ fn curve_parts(sk: &Sketch, i: usize, plane: &Plane, tolerance: f64) -> Vec<Vec<
 }
 
 /// The shown sketches' profile curves, sampled at the export's chord `tolerance`.
-pub(super) fn parts(s: &Session, tolerance: f64) -> Result<Vec<Part>, &'static str> {
+pub(crate) fn parts(s: &Session, tolerance: f64) -> Result<Vec<Part>, &'static str> {
     let world = s.world_state();
     let shown: Vec<_> = world.sketches.iter().filter(|ss| sketch_shown(s, ss.feature)).collect();
     let progress = Stage::new("dxf_projection", shown.len());

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>Break-out section</title>
+  <path d="M12 11L52 11L52 53L12 53Z" fill="#e2e8ef" stroke="#34465b" stroke-width="2.55" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="32" cy="32" r="6" fill="#ffffff" stroke="#34465b" stroke-width="2.55" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M32 17C38 16 45 21 47 27C49 33 45 41 39 45C33 49 24 47 20 41C16 35 17 25 22 20C25 18 29 17 32 17Z" fill="#b9ddf8"/>
+  <defs>
+    <clipPath id="section-breakout-cut">
+      <path d="M32 17C38 16 45 21 47 27C49 33 45 41 39 45C33 49 24 47 20 41C16 35 17 25 22 20C25 18 29 17 32 17Z"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#section-breakout-cut)">
+    <path d="M14 46L44 14M22 50L50 20M30 54L56 26" fill="none" stroke="#328bd3" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+  <path d="M32 17C38 16 45 21 47 27C49 33 45 41 39 45C33 49 24 47 20 41C16 35 17 25 22 20C25 18 29 17 32 17Z" fill="none" stroke="#236ead" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="32" cy="32" r="6" fill="none" stroke="#34465b" stroke-width="2.55" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

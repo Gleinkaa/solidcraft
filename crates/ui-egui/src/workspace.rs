@@ -557,6 +557,9 @@ pub fn visible_tabs(app: &crate::SolveApp) -> Vec<&'static str> {
     if crate::render_workspace::active(app) {
         return vec!["RENDER"];
     }
+    if crate::drawing_workspace::active(app) {
+        return vec!["DRAWING"];
+    }
     let mut tabs = TABS.to_vec();
     if app.session.active_sketch.is_some() {
         tabs.push("SKETCH");
@@ -573,7 +576,7 @@ pub fn visible_tabs(app: &crate::SolveApp) -> Vec<&'static str> {
 /// other tabs to remain usable for the rest of that context. Sketch takes precedence over sheet
 /// metal, and sheet metal over weldments.
 pub fn sync_context(app: &mut crate::SolveApp) {
-    if crate::render_workspace::active(app) {
+    if crate::render_workspace::active(app) || crate::drawing_workspace::active(app) {
         return;
     }
     let context = app
@@ -616,6 +619,10 @@ pub fn sync_context(app: &mut crate::SolveApp) {
 }
 
 pub fn select_command_tab(app: &mut crate::SolveApp, id: &str) {
+    // The Drawing workspace owns its entry/exit lifecycle and its single tab.
+    if crate::drawing_workspace::active(app) {
+        return;
+    }
     sync_context(app);
     let Some(c) = solidcraft_engine::find_command(id) else { return };
     // Keep the tab a toolbar click came from when it already lists this shared command.

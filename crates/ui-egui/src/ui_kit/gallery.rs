@@ -1667,6 +1667,7 @@ fn confirm_radial_and_history_rows_keep_multitone_artwork() {
             ("FORM", Some("form")),
             ("MODEL", None),
             ("SHEET METAL", None),
+            ("DRAWING", None),
             ("RENDER", None),
             ("unknown", None),
         ] {

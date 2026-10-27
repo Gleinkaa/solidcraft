@@ -233,3 +233,91 @@ fn view_dxf_hides_finished_sketches_behind_bodies_but_draws_the_active_sketch_on
     assert_eq!(dashed["sketch"], 2);
     assert!((length(&dashed) - 80.).abs() < 1e-3, "{}", length(&dashed));
 }
+
+/// A profile in the XY plane (x along the axis, y the radius), revolved a full turn about X.
+fn revolved(profile: &[[f64; 2]], body: &str) -> Session {
+    let mut s = Session::default();
+    run(&mut s, "sketch.create", json!({"plane":"XY","name":"Profile"}));
+    run(&mut s, "sketch.line", json!({"points":profile,"closed":true}));
+    run(&mut s, "sketch.finish", json!({}));
+    run(&mut s, "solid.revolve", json!({"sketch":"Profile","axis":"x","angle":360,"body_name":body}));
+    s
+}
+
+/// The visible segments of a `drawing.views` reply.
+fn visible_segments(view: &Value) -> Vec<(Vec2, Vec2)> {
+    view["visible"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|s| {
+            let v: Vec<f64> = s.as_array().unwrap().iter().map(|x| x.as_f64().unwrap()).collect();
+            (Vec2::new(v[0], v[1]), Vec2::new(v[2], v[3]))
+        })
+        .collect()
+}
+
+/// Distance from the view origin to the segment `a`–`b` (the projection of the cone's apex).
+fn distance_to_origin(a: Vec2, b: Vec2) -> f64 {
+    let d = b - a;
+    let t = if d.len2() > 0.0 { (-a.dot(d) / d.len2()).clamp(0.0, 1.0) } else { 0.0 };
+    (a + d * t).len()
+}
+
+#[test]
+fn a_revolved_cones_end_view_has_no_tessellation_star_at_the_apex() {
+    // The apex on the axis makes truck's tessellation a triangle fan with a zero-area triangle
+    // where each patch closes. Those have no facing; treating them as back-facing used to draw
+    // every edge beside them as a silhouette: a star of lines radiating from the apex.
+    let mut s = revolved(&[[0., 0.], [0., 10.], [20., 0.]], "Cone");
+    let right = run(&mut s, "drawing.views", json!({"views":["right"],"hidden":false}));
+    let segs = visible_segments(&right["views"][0]);
+    assert!(segs.len() > 20, "the 10 mm base circle is drawn: {}", segs.len());
+    for (a, b) in &segs {
+        assert!(distance_to_origin(*a, *b) > 0.05, "a line through the apex: {a:?}-{b:?}");
+        assert!((a.len() - 10.0).abs() < 0.02 && (b.len() - 10.0).abs() < 0.02, "the end view is exactly the 10 mm base circle: {a:?}-{b:?}");
+    }
+    // The front view is the profile triangle: the flat base and the two generators from the
+    // 10 mm rim to the apex, with no extra strokes at the tip.
+    let front = run(&mut s, "drawing.views", json!({"views":["front"],"hidden":false}));
+    let segs = visible_segments(&front["views"][0]);
+    assert!(segs.len() >= 3, "{segs:?}");
+    let off = |p: Vec2, a: Vec2, b: Vec2| {
+        let d = b - a;
+        let t = if d.len2() > 0.0 { ((p - a).dot(d) / d.len2()).clamp(0.0, 1.0) } else { 0.0 };
+        p.dist(a + d * t)
+    };
+    // The base projects to x = 0; the outer generators are the lines (0,±10)-(20,0).
+    let (base0, base1) = (Vec2::new(0., -10.), Vec2::new(0., 10.));
+    let (top0, top1) = (Vec2::new(0., 10.), Vec2::new(20., 0.));
+    let (bottom0, bottom1) = (Vec2::new(0., -10.), Vec2::new(20., 0.));
+    for (a, b) in &segs {
+        let on = [(&base0, &base1), (&top0, &top1), (&bottom0, &bottom1)].iter().any(|(p, q)| off(*a, **p, **q) < 0.02 && off(*b, **p, **q) < 0.02);
+        assert!(on, "a stroke beside the cone profile: {a:?}-{b:?}");
+    }
+}
+
+#[test]
+fn a_revolved_tubes_end_view_is_only_its_two_circles() {
+    // Outer radius 10, a 4 mm bore from x = 20 to x = 10 with a flat bottom: exactly two circles
+    // in the end view, whichever direction the tessellation chose.
+    let mut s = revolved(&[[0., 0.], [0., 10.], [20., 10.], [20., 4.], [10., 4.], [10., 0.]], "Tube");
+    let right = run(&mut s, "drawing.views", json!({"views":["right"],"hidden":false}));
+    let segs = visible_segments(&right["views"][0]);
+    assert!(segs.len() > 40, "both circles are drawn: {}", segs.len());
+    let mut outer = false;
+    let mut bore = false;
+    for (a, b) in &segs {
+        for p in [a, b] {
+            let r = p.len();
+            if (r - 10.0).abs() < 0.02 {
+                outer = true;
+            } else if (r - 4.0).abs() < 0.02 {
+                bore = true;
+            } else {
+                panic!("an end-view stroke leaves the two circles: {p:?} (r = {r})");
+            }
+        }
+    }
+    assert!(outer && bore, "outer {outer}, bore {bore}");
+}

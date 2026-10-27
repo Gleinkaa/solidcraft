@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>Automatic sections</title>
+  <path d="M10 15L42 15L42 53L10 53Z" fill="#e2e8ef" stroke="#34465b" stroke-width="2.55" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M26 8L26 60" fill="none" stroke="#236ead" stroke-width="4.25" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="6 5"/>
+  <path d="M41 34C42 40 43 41 49 42C43 43 42 44 41 50C40 44 39 43 33 42C39 41 40 40 41 34Z" fill="#236ead"/>
+  <path d="M50 17C50.6 21 51 21.4 55 22C51 22.6 50.6 23 50 27C49.4 23 49 22.6 45 22C49 21.4 49.4 21 50 17Z" fill="#236ead"/>
+</svg>

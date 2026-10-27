@@ -1,0 +1,577 @@
+[
+ {
+  "note": "D9.2: a full section placed on the flywheel by clicking, then a break-out on the shaft's cross hole; drag, delete and undo. Driven by handles only."
+ },
+ {
+  "call": "ui.resize",
+  "params": {
+   "width": 1600,
+   "height": 1500
+  }
+ },
+ {
+  "call": "engine.execute",
+  "params": {
+   "command": "sketch.create",
+   "params": {
+    "plane": "XZ",
+    "name": "FlyProfile"
+   }
+  }
+ },
+ {
+  "call": "engine.execute",
+  "params": {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      8,
+      0
+     ],
+     [
+      60,
+      0
+     ],
+     [
+      60,
+      -20
+     ],
+     [
+      45,
+      -20
+     ],
+     [
+      45,
+      -10
+     ],
+     [
+      20,
+      -10
+     ],
+     [
+      20,
+      -35
+     ],
+     [
+      8,
+      -35
+     ]
+    ],
+    "closed": true
+   }
+  }
+ },
+ {
+  "call": "engine.execute",
+  "params": {
+   "command": "sketch.finish",
+   "params": {}
+  }
+ },
+ {
+  "call": "engine.execute",
+  "params": {
+   "command": "solid.revolve",
+   "params": {
+    "sketch": "FlyProfile",
+    "axis": "Z",
+    "angle": 360,
+    "body_name": "Flywheel"
+   }
+  }
+ },
+ {
+  "call": "ui.workspace",
+  "params": {
+   "workspace": "drawing"
+  }
+ },
+ {
+  "until": {
+   "drawing": {
+    "active": true,
+    "building": false,
+    "views": [
+     "front",
+     "top"
+    ],
+    "error": null
+   }
+  }
+ },
+ {
+  "note": "1. The automatic section is A; Section -> None removes it from the page."
+ },
+ {
+  "expect": {
+   "drawing": {
+    "section_mode": "auto",
+    "section_labels": [
+     "A"
+    ],
+    "section_count": 1,
+    "section_hatch_lines": 22
+   }
+  }
+ },
+ {
+  "click": {
+   "handle": "drawing:section:none"
+  }
+ },
+ {
+  "until": {
+   "drawing": {
+    "building": false,
+    "section_mode": "none"
+   }
+  }
+ },
+ {
+  "expect": {
+   "drawing": {
+    "section_mode": "none",
+    "section_letters": [],
+    "section_labels": [],
+    "section_count": 0,
+    "section_hatch_lines": 0
+   }
+  }
+ },
+ {
+  "note": "2. Section -> Full, pick the end view, drag a horizontal line through its centre."
+ },
+ {
+  "click": {
+   "handle": "drawing:section:full"
+  }
+ },
+ {
+  "click": {
+   "handle": "drawing:view:top"
+  }
+ },
+ {
+  "expect": {
+   "drawing": {
+    "section_tool": {
+     "active": true,
+     "mode": "full",
+     "picked_view": "top",
+     "selected": null
+    }
+   }
+  }
+ },
+ {
+  "drag": [
+   {
+    "handle": "drawing:view:top:centre"
+   },
+   {
+    "handle": "drawing:view:top:centre:0:x"
+   }
+  ]
+ },
+ {
+  "until": {
+   "drawing": {
+    "building": false,
+    "section_mode": "explicit",
+    "section_letters": [
+     "A"
+    ]
+   }
+  }
+ },
+ {
+  "expect": {
+   "drawing": {
+    "section_mode": "explicit",
+    "section_letters": [
+     "A"
+    ],
+    "section_labels": [
+     "A"
+    ],
+    "section_count": 1,
+    "section_hatch_lines": 22
+   }
+  }
+ },
+ {
+  "note": "2b. A title edit after placing A-A must keep the stored sections and the page (D9.3)."
+ },
+ {
+  "call": "engine.execute",
+  "params": {
+   "command": "drawing.title.set",
+   "params": {
+    "werkstoff": "C45"
+   }
+  }
+ },
+ {
+  "expect": {
+   "drawing": {
+    "section_mode": "explicit",
+    "section_source": "stored",
+    "section_letters": [
+     "A"
+    ],
+    "section_count": 1,
+    "section_hatch_lines": 22
+   }
+  }
+ },
+ {
+  "note": "3. The page has hatching, and the PDF export of the stored spec has hatched cut regions."
+ },
+ {
+  "expect": {
+   "query": {
+    "command": "drawing.export",
+    "params": {
+     "path": "$DIR/flywheel.pdf"
+    },
+    "path": [
+     "section_source"
+    ],
+    "value": "stored"
+   }
+  }
+ },
+ {
+  "expect": {
+   "query": {
+    "command": "drawing.export",
+    "params": {
+     "path": "$DIR/flywheel.pdf"
+    },
+    "path": [
+     "sections",
+     0,
+     "hatch_lines"
+    ],
+    "value": 22
+   }
+  }
+ },
+ {
+  "click": {
+   "handle": "drawing:section:item:A"
+  }
+ },
+ {
+  "expect": {
+   "shown_handles": [
+    "drawing:section:handle:A:a",
+    "drawing:section:handle:A:b"
+   ]
+  }
+ },
+ {
+  "expect": {
+   "file": "flywheel.pdf"
+  }
+ },
+ {
+  "note": "4. A second design: a break-out on the shaft's cross hole."
+ },
+ {
+  "call": "ui.documents",
+  "params": {
+   "action": "new"
+  }
+ },
+ {
+  "call": "engine.execute",
+  "params": {
+   "command": "sketch.create",
+   "params": {
+    "plane": "XY",
+    "name": "ShaftProfile"
+   }
+  }
+ },
+ {
+  "call": "engine.execute",
+  "params": {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      10
+     ],
+     [
+      30,
+      10
+     ],
+     [
+      30,
+      14
+     ],
+     [
+      80,
+      14
+     ],
+     [
+      80,
+      8
+     ],
+     [
+      120,
+      8
+     ],
+     [
+      120,
+      0
+     ]
+    ],
+    "closed": true
+   }
+  }
+ },
+ {
+  "call": "engine.execute",
+  "params": {
+   "command": "sketch.finish",
+   "params": {}
+  }
+ },
+ {
+  "call": "engine.execute",
+  "params": {
+   "command": "solid.revolve",
+   "params": {
+    "sketch": "ShaftProfile",
+    "axis": "x",
+    "angle": 360,
+    "body_name": "Shaft"
+   }
+  }
+ },
+ {
+  "call": "engine.execute",
+  "params": {
+   "command": "solid.hole",
+   "params": {
+    "position": [
+     120,
+     0,
+     0
+    ],
+    "direction": [
+     -1,
+     0,
+     0
+    ],
+    "diameter": 8,
+    "depth": 20,
+    "type": "drilled",
+    "tip_angle": 118,
+    "targets": [
+     "Shaft"
+    ]
+   }
+  }
+ },
+ {
+  "call": "engine.execute",
+  "params": {
+   "command": "solid.cylinder",
+   "params": {
+    "base": [
+     55,
+     0,
+     -20
+    ],
+    "axis": [
+     0,
+     0,
+     1
+    ],
+    "radius": 3,
+    "height": 40,
+    "operation": "cut",
+    "targets": [
+     "Shaft"
+    ]
+   }
+  }
+ },
+ {
+  "call": "ui.workspace",
+  "params": {
+   "workspace": "drawing"
+  }
+ },
+ {
+  "until": {
+   "drawing": {
+    "active": true,
+    "building": false,
+    "views": [
+     "front",
+     "right"
+    ],
+    "error": null
+   }
+  }
+ },
+ {
+  "click": {
+   "handle": "drawing:section:none"
+  }
+ },
+ {
+  "until": {
+   "drawing": {
+    "building": false,
+    "section_mode": "none"
+   }
+  }
+ },
+ {
+  "click": {
+   "handle": "drawing:section:breakout"
+  }
+ },
+ {
+  "click": {
+   "handle": "drawing:view:front"
+  }
+ },
+ {
+  "drag": [
+   {
+    "handle": "drawing:view:front:hole:0"
+   },
+   {
+    "handle": "drawing:view:front:hole:0:out"
+   }
+  ]
+ },
+ {
+  "until": {
+   "drawing": {
+    "building": false,
+    "section_mode": "explicit",
+    "section_letters": [
+     "A"
+    ]
+   }
+  }
+ },
+ {
+  "expect": {
+   "drawing": {
+    "section_mode": "explicit",
+    "section_letters": [
+     "A"
+    ],
+    "section_count": 1,
+    "section_hatch_lines": 5
+   }
+  }
+ },
+ {
+  "note": "5. Drag the break-out's centre handle, then delete A and undo it back."
+ },
+ {
+  "click": {
+   "handle": "drawing:section:item:A"
+  }
+ },
+ {
+  "expect": {
+   "drawing": {
+    "section_tool": {
+     "active": true,
+     "mode": "breakout",
+     "picked_view": "front",
+     "selected": "A"
+    }
+   }
+  }
+ },
+ {
+  "drag": [
+   {
+    "handle": "drawing:section:handle:A:c"
+   },
+   {
+    "handle": "drawing:view:front:hole:0:out"
+   }
+  ]
+ },
+ {
+  "until": {
+   "drawing": {
+    "building": false,
+    "section_hatch_lines": 4
+   }
+  }
+ },
+ {
+  "click": {
+   "handle": "drawing:section:delete:A"
+  }
+ },
+ {
+  "until": {
+   "drawing": {
+    "building": false,
+    "section_letters": []
+   }
+  }
+ },
+ {
+  "expect": {
+   "drawing": {
+    "section_letters": [],
+    "section_count": 0,
+    "section_hatch_lines": 0
+   }
+  }
+ },
+ {
+  "call": "engine.execute",
+  "params": {
+   "command": "edit.undo"
+  }
+ },
+ {
+  "until": {
+   "drawing": {
+    "building": false,
+    "section_letters": [
+     "A"
+    ]
+   }
+  }
+ },
+ {
+  "expect": {
+   "drawing": {
+    "section_letters": [
+     "A"
+    ],
+    "section_count": 1,
+    "section_hatch_lines": 4
+   }
+  }
+ },
+ {
+  "call": "ui.workspace",
+  "params": {
+   "workspace": "design"
+  }
+ }
+]

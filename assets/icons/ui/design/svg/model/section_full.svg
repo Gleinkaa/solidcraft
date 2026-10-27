@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>Full section</title>
+  <path d="M12 11L52 11L52 53L12 53Z" fill="#e2e8ef" stroke="#34465b" stroke-width="2.55" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M32 11L52 11L52 53L32 53Z" fill="#b9ddf8"/>
+  <defs>
+    <clipPath id="section-full-cut">
+      <path d="M32 11L52 11L52 53L32 53Z"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#section-full-cut)">
+    <path d="M26 53L54 19M34 53L54 25M42 53L54 33" fill="none" stroke="#328bd3" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+  <path d="M32 11L52 11L52 53L32 53Z" fill="none" stroke="#34465b" stroke-width="2.55" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M32 4L32 60" fill="none" stroke="#236ead" stroke-width="4.25" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M25 9L32 4L39 9" fill="none" stroke="#236ead" stroke-width="4.25" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M25 55L32 60L39 55" fill="none" stroke="#236ead" stroke-width="4.25" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

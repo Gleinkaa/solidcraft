@@ -11,7 +11,7 @@
 //!                                                             the standard Assistant model test (#4851) on a running app
 //! solidcraft-cli snapshot <script|design> [--in design|part.step] --out shot.png [--width W] [--height H] [--view iso|front|top|…|NAME | --camera JSON] [--no-grid] [--no-axes]
 //!                                                             [--body NAME:opacity=0.3,color=#rrggbb]... [--tool NAME]... [--section z=27]
-//! solidcraft-cli exec <command> [json-params]                 run one command on an empty design
+//! solidcraft-cli exec <command> [json-params] [--in design|part.step]   run one command, on an empty design or a loaded one
 //! solidcraft-cli commands                                     the command registry as JSON
 //! solidcraft-cli recipe <recipe.json>                         translate an oracle recipe to a script
 //! solidcraft-cli oracle <case-dir>...                         replay recipes and compare with expected.json
@@ -72,7 +72,8 @@ const USAGE_SNAPSHOT: &str = "  solidcraft-cli snapshot <script|design> [--in de
 /// `render`'s lines in the usage.
 const USAGE_RENDER: &str = "  solidcraft-cli render <script|design> --out image.png [--setup NAME] [--width W] [--height H] [--transparent] [--overwrite] [--timeout SECONDS]\n      [--progressive] [--samples N] [--max-depth N] [--seed N] [--exposure EV] [--lighting FILE.json] [--environment FILE.json] [--tone-map reinhard|aces_fitted]\n";
 /// `exec`'s lines in the usage.
-const USAGE_EXEC: &str = "  solidcraft-cli exec <command> [json-params]\n";
+const USAGE_EXEC: &str =
+    "  solidcraft-cli exec <command> [json-params] [--in design.solidcraft|part.step]\n      (without --in the command runs on an empty design)\n";
 /// `commands`'s lines in the usage.
 const USAGE_COMMANDS: &str = "  solidcraft-cli commands\n";
 /// `recipe`'s lines in the usage.
@@ -617,11 +618,32 @@ fn ico(images: &[(usize, Vec<u8>)]) -> Result<Vec<u8>, String> {
 fn cmd_exec(args: &[String]) -> Result<(), String> {
     install_renderer();
     let id = args.first().ok_or_else(usage)?;
-    let p: Value = match args.get(1) {
+    // `exec <command> [json-params] [--in design.solidcraft|part.step]`: the params are the
+    // first free argument after the command, so `--in` may come before or after them.
+    let mut params = None;
+    let mut i = 1;
+    while let Some(a) = args.get(i) {
+        match a.as_str() {
+            "--in" => i += 2,
+            a if !a.starts_with("--") => {
+                params = Some(a);
+                break;
+            }
+            _ => i += 1,
+        }
+    }
+    let p: Value = match params {
         Some(t) => serde_json::from_str(t).map_err(|e| format!("params: {e}"))?,
         None => json!({}),
     };
-    let mut s = Session::default();
+    let base = flag(args, "--in");
+    if args.iter().any(|a| a == "--in") && base.is_none() {
+        return Err("--in needs a design or STEP file".into());
+    }
+    let mut s = match base {
+        Some(path) => load(path)?,
+        None => Session::default(),
+    };
     let v = s.execute(id, &p).map_err(|e| e.to_string())?;
     println!("{}", pretty(&v));
     Ok(())

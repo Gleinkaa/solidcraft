@@ -432,15 +432,47 @@ fn dispatch(app: &mut SolveApp, ctx: &egui::Context, method: &str, p: &Value) ->
     match method {
         "ui.workspace" => {
             if let Some(workspace) = s("workspace") {
-                if !matches!(workspace, "design" | "render") {
-                    return err("workspace must be design or render");
+                if !matches!(workspace, "design" | "render" | "drawing") {
+                    return err("workspace must be design, render or drawing");
                 }
-                if let Err(e) = crate::render_workspace::enter(app, workspace == "render") {
+                let result = match workspace {
+                    "render" => {
+                        if crate::drawing_workspace::active(app) {
+                            let _ = crate::drawing_workspace::enter(app, false);
+                        }
+                        crate::render_workspace::enter(app, true)
+                    }
+                    "drawing" => {
+                        if crate::render_workspace::active(app) {
+                            let _ = crate::render_workspace::enter(app, false);
+                        }
+                        crate::drawing_workspace::enter(app, true)
+                    }
+                    _ => {
+                        let mut result = Ok(());
+                        if crate::drawing_workspace::active(app) {
+                            result = crate::drawing_workspace::enter(app, false);
+                        }
+                        if crate::render_workspace::active(app) {
+                            result = crate::render_workspace::enter(app, false);
+                        }
+                        result
+                    }
+                };
+                if let Err(e) = result {
                     return err(e);
                 }
             }
-            ok(json!({"workspace":if crate::render_workspace::active(app) {"render"} else {"design"}}))
+            let workspace = if crate::render_workspace::active(app) {
+                "render"
+            } else if crate::drawing_workspace::active(app) {
+                "drawing"
+            } else {
+                "design"
+            };
+            ok(json!({"workspace":workspace}))
         }
+        "ui.drawing.state" => ok(crate::drawing_workspace::control_state(app)),
         "engine.execute" | "command" => {
             let Some(id) = s("command").or(s("id")) else { return err("missing `command`") };
             wrap(execute(app, id, p.get("params").cloned().filter(|v| !v.is_null()).unwrap_or(json!({}))))
@@ -586,8 +618,22 @@ fn dispatch(app: &mut SolveApp, ctx: &egui::Context, method: &str, p: &Value) ->
                             v.hidden_folders.push(SKETCHES_FOLDER.to_string());
                         }
                     }
+                    // Leaving a workspace restores its own tab and camera before the next one
+                    // is entered, so a switch from Render to Drawing (or back) is one step.
+                    if u.tab != "DRAWING"
+                        && crate::drawing_workspace::active(app)
+                        && let Err(e) = crate::drawing_workspace::enter(app, false)
+                    {
+                        return err(e);
+                    }
                     if (u.tab == "RENDER") != crate::render_workspace::active(app)
                         && let Err(e) = crate::render_workspace::enter(app, u.tab == "RENDER")
+                    {
+                        return err(e);
+                    }
+                    if u.tab == "DRAWING"
+                        && !crate::drawing_workspace::active(app)
+                        && let Err(e) = crate::drawing_workspace::enter(app, true)
                     {
                         return err(e);
                     }
@@ -601,6 +647,16 @@ fn dispatch(app: &mut SolveApp, ctx: &egui::Context, method: &str, p: &Value) ->
         }
         "ui.view" => {
             let v = s("view").unwrap_or("home");
+            if crate::drawing_workspace::active(app) {
+                return match v {
+                    "fit" | "home" => {
+                        app.cancel_view_animation();
+                        app.drawing_workspace.view.cam.fitted = false;
+                        ok(json!({"fitted": true, "workspace": "drawing"}))
+                    }
+                    _ => err("the drawing page has a flat 2D view; use ui.view fit"),
+                };
+            }
             app.viewport.orbit_free = None;
             if p.get("animate").and_then(Value::as_bool).unwrap_or(false) {
                 if v != "fit" && v != "home" && StandardView::parse(v).is_none() {

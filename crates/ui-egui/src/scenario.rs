@@ -654,7 +654,7 @@ fn approx(got: f64, want: &Value, what: &str) -> Result<(), String> {
 /// `features` (count), `errors` (timeline features in error, default 0), `dialog` (null: none
 /// open, or a word its kind must contain), `tool` (null or command id), `status` (null, or a
 /// substring of the status line), `sketching` (bool),
-/// `selection` (count), `glyphs` ({constraint id: count}, none overlapping one another or a dimension value), `param` ({name: value}), `sketch_status` (solved|…), `dof`, `query`
+/// `selection` (count), `glyphs` ({constraint id: count}, none overlapping one another or a dimension value), `param` ({name: value}), `sketch_status` (solved|…), `dof`, `tab` (ribbon tab), `drawing` (fields of `ui.drawing.state`), `query`
 /// ({command, params?, path, value}: a command's result).
 pub fn check(h: &mut Harness, e: &Value) -> Result<(), String> {
     let doc = h.call("document.inspect", json!({"measure": true}))["result"].clone();
@@ -865,6 +865,21 @@ pub fn check(h: &mut Harness, e: &Value) -> Result<(), String> {
             "tool" => {
                 if ui["tool"] != *v {
                     return Err(format!("tool: got {}, want {v}", ui["tool"]));
+                }
+            }
+            "tab" => {
+                // The ribbon tab the window shows (the workspace pages have one tab).
+                if v.as_str() != Some(h.app.ui.tab.as_str()) {
+                    return Err(format!("tab: got {}, want {v}", h.app.ui.tab));
+                }
+            }
+            "drawing" => {
+                // Fields of `ui.drawing.state` (active, building, views, error, scale…).
+                let state = h.call("ui.drawing.state", json!({}))["result"].clone();
+                for (key, want) in v.as_object().ok_or("drawing takes {field: value}")? {
+                    if state.get(key) != Some(want) {
+                        return Err(format!("drawing.{key}: got {}, want {want}", state.get(key).unwrap_or(&Value::Null)));
+                    }
                 }
             }
             "status" => {
@@ -1112,8 +1127,10 @@ pub fn check(h: &mut Harness, e: &Value) -> Result<(), String> {
             }
             "query" => {
                 // {command, params?, path: [keys or indices], value}: a command's result at path.
+                // "$DIR" in a string parameter is the scenario's folder, as in a `call` step.
                 let cmd = v["command"].as_str().ok_or("query needs `command`")?;
-                let r = h.call("engine.execute", json!({"command": cmd, "params": v.get("params").cloned().unwrap_or(json!({}))}));
+                let params = with_dir(v.get("params").cloned().unwrap_or(json!({})), &h.dir.to_string_lossy());
+                let r = h.call("engine.execute", json!({"command": cmd, "params": params}));
                 let mut at = &r["result"];
                 for k in v["path"].as_array().into_iter().flatten() {
                     at = match k {

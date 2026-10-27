@@ -209,6 +209,7 @@ section	false
 select	false
 send	false
 settings	false
+sheet	false
 sheet_rules	false
 shell	false
 shield	false

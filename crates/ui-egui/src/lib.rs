@@ -56,6 +56,7 @@ mod dimension_create_ui_tests;
 pub mod documents;
 pub mod drag_extrude;
 pub mod drag_snap;
+pub mod drawing_workspace;
 pub mod edit_clipboard;
 mod feature_edit;
 #[cfg(test)]
@@ -434,6 +435,7 @@ pub struct SolveApp {
     saving: Option<save_job::Saving>,
     pub viewport: viewport::ViewportState,
     pub render_workspace: render_workspace::State,
+    pub drawing_workspace: drawing_workspace::State,
     pub tool: Option<tools::Tool>,
     pub dialog: Option<dialogs::Dialog>,
     /// The Change Parameters window, when open.
@@ -633,6 +635,7 @@ impl SolveApp {
             saving: None,
             viewport: viewport::ViewportState::default(),
             render_workspace,
+            drawing_workspace: drawing_workspace::State::default(),
             tool: None,
             dialog: None,
             params: None,
@@ -1057,6 +1060,7 @@ impl SolveApp {
                 if matches!(id, "file.new" | "doc.open" | "doc.recover") {
                     documents::reset_chat(self);
                     render_workspace::reset_document(self);
+                    drawing_workspace::reset_document(self);
                     dim_view::cancel();
                     self.menu.props = None;
                     sketch_attachment_ui::clear(self);
@@ -1704,6 +1708,12 @@ impl SolveApp {
             self.flat_view.fitted = false;
             return;
         }
+        if drawing_workspace::active(self) {
+            // The drawing page frames its paper; the Design camera is left alone.
+            self.cancel_view_animation();
+            self.drawing_workspace.view.cam.fitted = false;
+            return;
+        }
         if render_workspace::active(self) {
             self.cancel_view_animation();
             match solidcraft_engine::product_scene::extract(&self.session) {
@@ -1792,6 +1802,11 @@ impl SolveApp {
             self.animate_view("fit");
             return;
         }
+        if drawing_workspace::active(self) {
+            // The drawing page frames its paper.
+            self.animate_view("fit");
+            return;
+        }
         if render_workspace::active(self) {
             // The Render preview frames its product scene (see `fit_view`).
             self.fit_view();
@@ -1825,6 +1840,11 @@ impl SolveApp {
         // The flat pattern is a 2D view: Fit and Home frame it, and the Design camera stays put.
         if dialogs_sheet::flat_active(self) {
             self.flat_view.fitted = false;
+            return;
+        }
+        if drawing_workspace::active(self) {
+            self.cancel_view_animation();
+            self.drawing_workspace.view.cam.fitted = false;
             return;
         }
         if render_workspace::active(self) {
@@ -1912,6 +1932,7 @@ impl SolveApp {
         file_picker::tick(self, ctx);
         render_workspace::sync_backend(self);
         render_workspace::tick(self, ctx);
+        drawing_workspace::tick(self, ctx);
         file_load::tick(self, ctx);
         save_job::tick(self, false);
         if self.saving.is_some() {
@@ -2097,7 +2118,7 @@ impl SolveApp {
             }
         }
         let floating = ui_kit::Container::new(ui.ctx(), ui_kit::Surface::Panel).floating();
-        let show_timeline = self.ui.show_timeline && !render_workspace::active(self);
+        let show_timeline = self.ui.show_timeline && !render_workspace::active(self) && !drawing_workspace::active(self);
         let left_timeline = show_timeline && self.preferences.timeline_left;
         timeline_left::animate_folds(self, ui.ctx());
         if !floating && !self.embedded {
@@ -2160,6 +2181,9 @@ impl SolveApp {
         if render_workspace::active(self) {
             render_workspace::panel(self, ui);
         }
+        if drawing_workspace::active(self) {
+            drawing_workspace::panel(self, ui);
+        }
         if self.ui.show_browser {
             browser::browser(self, ui);
         }
@@ -2211,6 +2235,8 @@ impl SolveApp {
     fn show_workspace(&mut self, ui: &mut egui::Ui) {
         if render_workspace::active(self) {
             render_workspace::show(self, ui);
+        } else if drawing_workspace::active(self) {
+            drawing_workspace::show(self, ui);
         } else {
             viewport::show(self, ui);
         }

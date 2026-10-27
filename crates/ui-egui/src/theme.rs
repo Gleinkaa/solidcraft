@@ -285,6 +285,7 @@ impl TabAccent {
             "MESH" => (t.mesh_fill, t.mesh_ink, t.mesh_soft),
             "FORM" => (t.form_fill, t.form_tab_ink, t.form_soft),
             "SHEET METAL" => (t.sheet_fill, t.sheet_ink, t.sheet_soft),
+            "DRAWING" => (t.sheet_fill, t.sheet_ink, t.sheet_soft),
             "RENDER" => (t.render_fill, t.render_ink, t.render_soft),
             // Model and shared utility tabs retain their existing selection exactly.
             _ => (t.accent, t.selected_ink, t.accent_soft),
@@ -1128,6 +1129,7 @@ mod tests {
                     ("MESH", t.mesh_fill, t.mesh_ink, t.mesh_soft),
                     ("FORM", t.form_fill, t.form_tab_ink, t.form_soft),
                     ("SHEET METAL", t.sheet_fill, t.sheet_ink, t.sheet_soft),
+                    ("DRAWING", t.sheet_fill, t.sheet_ink, t.sheet_soft),
                     ("RENDER", t.render_fill, t.render_ink, t.render_soft),
                 ] {
                     let accent = super::TabAccent::for_tab(&t, tab);
@@ -1151,6 +1153,7 @@ mod tests {
             ("MESH", [0xe0b200, 0x8a6d00, 0xfff8dc], [0xc6a800, 0xd4b726, 0x41391a]),
             ("FORM", [0x7349cd, 0x7349cd, 0xeee8fa], [0x8a6fcc, 0xb39bee, 0x372f4f]),
             ("SHEET METAL", [0x1e6f96, 0x1e6f96, 0xe1f0f7], [0x2a7fa8, 0x4fb3d9, 0x1f3a47]),
+            ("DRAWING", [0x1e6f96, 0x1e6f96, 0xe1f0f7], [0x2a7fa8, 0x4fb3d9, 0x1f3a47]),
             ("RENDER", [0xa8326e, 0xa8326e, 0xf8e6ef], [0xc8588f, 0xe074ae, 0x402336]),
         ] {
             for (t, values) in [(super::Tokens::light(), light), (super::Tokens::dark(), dark)] {
@@ -1187,7 +1190,7 @@ mod tests {
     #[test]
     fn tab_accents_hold_wcag_small_text_contrast_in_both_themes() {
         for (dark, t) in [(false, super::Tokens::light()), (true, super::Tokens::dark())] {
-            for tab in ["MODEL", "SKETCH", "SURFACE", "MESH", "FORM", "SHEET METAL", "RENDER"] {
+            for tab in ["MODEL", "SKETCH", "SURFACE", "MESH", "FORM", "SHEET METAL", "DRAWING", "RENDER"] {
                 let accent = super::TabAccent::for_tab(&t, tab);
                 let card = if dark { t.panel } else { egui::Color32::WHITE };
                 for (name, ink, ground) in [

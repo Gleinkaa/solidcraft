@@ -775,6 +775,7 @@ fn bend_note(b: &solidcraft_doc::sheet::BendInfo, height: f64, display: sheet::A
         height,
         angle_deg: angle,
         text: format!("B{} {} {}%%d R{}", b.index, if b.up { "UP" } else { "DOWN" }, compact(display.of(b.angle_deg)), compact(b.radius)),
+        anchor: solidcraft_io::DxfTextAnchor::Center,
     }
 }
 

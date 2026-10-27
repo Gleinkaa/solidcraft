@@ -102,7 +102,7 @@ fn selected_row_paints_tab_soft_fill_and_accent_text_in_both_layouts() {
     for dark in [false, true] {
         crate::theme::set_dark(dark);
         for mode in [LayoutMode::Floating, LayoutMode::Docked] {
-            for tab in ["MODEL", "SKETCH", "SURFACE", "MESH", "FORM", "SHEET METAL", "RENDER"] {
+            for tab in ["MODEL", "SKETCH", "SURFACE", "MESH", "FORM", "SHEET METAL", "DRAWING", "RENDER"] {
                 let ctx = crate::fonts::test_context();
                 let mut app = SolveApp::new(Default::default(), Default::default());
                 app.ui.layout = mode;
