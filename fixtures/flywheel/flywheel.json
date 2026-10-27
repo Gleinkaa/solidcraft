@@ -1,0 +1,6 @@
+{"commands":[
+  {"command":"sketch.create","params":{"plane":{"origin":[0,0,0],"x_dir":[1,0,0],"y_dir":[0,0,1]},"name":"FlyProfile"}},
+  {"command":"sketch.line","params":{"points":[[8,0],[60,0],[60,20],[45,20],[45,10],[20,10],[20,35],[8,35]],"closed":true}},
+  {"command":"sketch.finish","params":{}},
+  {"command":"solid.revolve","params":{"sketch":"FlyProfile","axis":"Z","angle":360,"body_name":"Flywheel"}}
+]}

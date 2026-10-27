@@ -1,0 +1,240 @@
+{
+ "shaft": {
+  "scale": "1:1",
+  "expected_curves": 4,
+  "matched": 4,
+  "missing": [],
+  "max_radius_dev_mm": 0.0,
+  "max_centre_dev_mm": 0.0,
+  "max_angle_dev_deg": 0.0,
+  "extra_curves": [],
+  "pdf_main_view_mm": {
+   "w": 120.0,
+   "h": 28.0
+  },
+  "expected_main_view_mm": {
+   "w": 120.0,
+   "h": 28.0
+  },
+  "dims_displayed_eq_group42": true,
+  "dims_geometry_over_scale_eq_group42": true,
+  "dims_regenerated_eq_group42": true,
+  "dims_empty_text": 4,
+  "dims_total": 7
+ },
+ "crank": {
+  "scale": "1:1",
+  "expected_curves": 4,
+  "matched": 4,
+  "missing": [],
+  "max_radius_dev_mm": 0.0,
+  "max_centre_dev_mm": 0.0,
+  "max_angle_dev_deg": 0.0003,
+  "extra_curves": [],
+  "pdf_main_view_mm": {
+   "w": 92.0,
+   "h": 39.999
+  },
+  "expected_main_view_mm": {
+   "w": 92.0,
+   "h": 40.0
+  },
+  "dims_displayed_eq_group42": true,
+  "dims_geometry_over_scale_eq_group42": true,
+  "dims_regenerated_eq_group42": true,
+  "dims_empty_text": 4,
+  "dims_total": 8
+ },
+ "flywheel": {
+  "scale": "1:2",
+  "expected_curves": 4,
+  "matched": 4,
+  "missing": [],
+  "max_radius_dev_mm": 0.0,
+  "max_centre_dev_mm": 0.0,
+  "max_angle_dev_deg": 0.0,
+  "extra_curves": [],
+  "pdf_main_view_mm": {
+   "w": 60.0,
+   "h": 17.5
+  },
+  "expected_main_view_mm": {
+   "w": 60.0,
+   "h": 17.5
+  },
+  "dims_displayed_eq_group42": true,
+  "dims_geometry_over_scale_eq_group42": true,
+  "dims_regenerated_eq_group42": false,
+  "dims_empty_text": 2,
+  "dims_total": 6
+ },
+ "flange": {
+  "scale": "1:2",
+  "expected_curves": 11,
+  "matched": 11,
+  "missing": [],
+  "max_radius_dev_mm": 0.0,
+  "max_centre_dev_mm": 0.0,
+  "max_angle_dev_deg": 0.0,
+  "extra_curves": [],
+  "pdf_main_view_mm": {
+   "w": 59.999,
+   "h": 20.0
+  },
+  "expected_main_view_mm": {
+   "w": 60.0,
+   "h": 20.0
+  },
+  "dims_displayed_eq_group42": true,
+  "dims_geometry_over_scale_eq_group42": true,
+  "dims_regenerated_eq_group42": false,
+  "dims_empty_text": 0,
+  "dims_total": 2
+ },
+ "bracket": {
+  "scale": "1:5",
+  "expected_curves": 6,
+  "matched": 6,
+  "missing": [],
+  "max_radius_dev_mm": 0.0,
+  "max_centre_dev_mm": 0.0,
+  "max_angle_dev_deg": 0.0,
+  "extra_curves": [
+   {
+    "type": "ARC",
+    "layer": "HIDDEN",
+    "view": "right",
+    "centre_part_mm": [
+     36.7,
+     33.0
+    ],
+    "radius_part_mm": 3.3,
+    "angles_deg": [
+     14.25,
+     21.233
+    ]
+   },
+   {
+    "type": "ARC",
+    "layer": "HIDDEN",
+    "view": "right",
+    "centre_part_mm": [
+     36.7,
+     33.0
+    ],
+    "radius_part_mm": 3.3,
+    "angles_deg": [
+     58.716,
+     61.332
+    ]
+   },
+   {
+    "type": "ARC",
+    "layer": "HIDDEN",
+    "view": "right",
+    "centre_part_mm": [
+     36.7,
+     33.0
+    ],
+    "radius_part_mm": 3.3,
+    "angles_deg": [
+     64.011,
+     66.491
+    ]
+   },
+   {
+    "type": "ARC",
+    "layer": "HIDDEN",
+    "view": "right",
+    "centre_part_mm": [
+     36.7,
+     33.0
+    ],
+    "radius_part_mm": 3.3,
+    "angles_deg": [
+     69.017,
+     75.953
+    ]
+   },
+   {
+    "type": "ARC",
+    "layer": "HIDDEN",
+    "view": "right",
+    "centre_part_mm": [
+     36.7,
+     33.0
+    ],
+    "radius_part_mm": 3.3,
+    "angles_deg": [
+     78.188,
+     80.273
+    ]
+   }
+  ],
+  "pdf_main_view_mm": {
+   "w": 16.0,
+   "h": 10.0
+  },
+  "expected_main_view_mm": {
+   "w": 16.0,
+   "h": 10.0
+  },
+  "dims_displayed_eq_group42": true,
+  "dims_geometry_over_scale_eq_group42": true,
+  "dims_regenerated_eq_group42": false,
+  "dims_empty_text": 6,
+  "dims_total": 9
+ },
+ "housing": {
+  "scale": "1:5",
+  "expected_curves": 9,
+  "matched": 9,
+  "missing": [],
+  "max_radius_dev_mm": 0.0,
+  "max_centre_dev_mm": 0.0,
+  "max_angle_dev_deg": 0.0,
+  "extra_curves": [
+   {
+    "type": "ARC",
+    "layer": "HIDDEN",
+    "view": "top",
+    "centre_part_mm": [
+     88.0,
+     30.0
+    ],
+    "radius_part_mm": 3.3,
+    "angles_deg": [
+     0.0,
+     1.484
+    ]
+   },
+   {
+    "type": "ARC",
+    "layer": "HIDDEN",
+    "view": "top",
+    "centre_part_mm": [
+     12.0,
+     30.0
+    ],
+    "radius_part_mm": 3.3,
+    "angles_deg": [
+     0.0,
+     1.484
+    ]
+   }
+  ],
+  "pdf_main_view_mm": {
+   "w": 20.0,
+   "h": 8.0
+  },
+  "expected_main_view_mm": {
+   "w": 20.0,
+   "h": 8.0
+  },
+  "dims_displayed_eq_group42": true,
+  "dims_geometry_over_scale_eq_group42": true,
+  "dims_regenerated_eq_group42": false,
+  "dims_empty_text": 7,
+  "dims_total": 10
+ }
+}

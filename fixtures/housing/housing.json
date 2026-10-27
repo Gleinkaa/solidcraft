@@ -1,0 +1,10 @@
+{"commands":[
+ {"command":"solid.box","params":{"length":100,"width":60,"height":40,"corner":[0,0,0],"name":"Block","body_name":"Lagerbock"}},
+ {"command":"solid.hole","params":{"position":[50,30,40],"diameter":35,"name":"Bore"}},
+ {"command":"solid.hole","params":{"position":[12,30,40],"diameter":6.6,"type":"counterbore","cb_diameter":11,"cb_depth":6.5,"name":"CB1"}},
+ {"command":"solid.hole","params":{"position":[88,30,40],"diameter":6.6,"type":"counterbore","cb_diameter":11,"cb_depth":6.5,"name":"CB2"}},
+ {"command":"sketch.create","params":{"plane":"XY","offset":40,"name":"PocketSketch"}},
+ {"command":"sketch.rectangle.rounded","params":{"p0":[25,10],"p1":[75,50],"radius":5}},
+ {"command":"sketch.finish","params":{}},
+ {"command":"solid.extrude","params":{"sketch":"PocketSketch","distance":5,"direction":"negative","operation":"cut","targets":["Lagerbock"],"name":"Pocket"}}
+]}

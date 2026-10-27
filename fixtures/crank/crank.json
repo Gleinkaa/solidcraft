@@ -1,0 +1,128 @@
+{
+ "commands": [
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": "XY",
+    "name": "CrankProfile"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      2.6666666666666665,
+      -19.821424996424675
+     ],
+     [
+      61.6,
+      -11.892854997854805
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.arc.center_point",
+   "params": {
+    "center": [
+     60,
+     0
+    ],
+    "start": [
+     61.6,
+     -11.892854997854805
+    ],
+    "end": [
+     61.6,
+     11.892854997854805
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      61.6,
+      11.892854997854805
+     ],
+     [
+      2.6666666666666665,
+      19.821424996424675
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.arc.center_point",
+   "params": {
+    "center": [
+     0,
+     0
+    ],
+    "start": [
+     2.6666666666666665,
+     19.821424996424675
+    ],
+    "end": [
+     2.6666666666666665,
+     -19.821424996424675
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "CrankProfile",
+    "distance": 10,
+    "profiles": "all",
+    "operation": "new",
+    "body_name": "Crank"
+   }
+  },
+  {
+   "command": "solid.cylinder",
+   "params": {
+    "radius": 8,
+    "height": 12,
+    "base": [
+     0,
+     0,
+     -1
+    ],
+    "axis": "Z",
+    "body_name": "Bore16"
+   }
+  },
+  {
+   "command": "solid.cylinder",
+   "params": {
+    "radius": 5,
+    "height": 12,
+    "base": [
+     60,
+     0,
+     -1
+    ],
+    "axis": "Z",
+    "body_name": "Bore10"
+   }
+  },
+  {
+   "command": "solid.combine",
+   "params": {
+    "target": "Crank",
+    "tools": [
+     "Bore16",
+     "Bore10"
+    ],
+    "operation": "cut"
+   }
+  }
+ ]
+}

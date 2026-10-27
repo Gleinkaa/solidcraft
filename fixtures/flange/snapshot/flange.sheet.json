@@ -1,0 +1,296 @@
+{
+  "annotations": {
+    "dimensions": [
+      {
+        "angle_deg": 0.0,
+        "def_points_mm": [
+          [
+            77.99999999984664,
+            126.33189666011941
+          ],
+          [
+            77.99999999984664,
+            126.33189666011941
+          ],
+          [
+            137.99999999984664,
+            126.33189666011941
+          ]
+        ],
+        "measured": 120.0,
+        "text": "Ø120",
+        "text_mm": [
+          107.99999999984664,
+          160.08189666011958
+        ],
+        "text_shift_mm": 0.0,
+        "view": "front"
+      },
+      {
+        "angle_deg": 0.0,
+        "def_points_mm": [
+          [
+            92.99999999984666,
+            138.8318966601194
+          ],
+          [
+            92.99999999984666,
+            138.8318966601194
+          ],
+          [
+            122.99999999984662,
+            138.8318966601194
+          ]
+        ],
+        "measured": 59.999999999999936,
+        "text": "Ø60",
+        "text_mm": [
+          107.99999999984664,
+          152.08189666011958
+        ],
+        "text_shift_mm": 0.0,
+        "view": "front"
+      }
+    ],
+    "notes": [
+      {
+        "leader": [
+          [
+            [
+              108.289384823499,
+              109.33189666011937
+            ],
+            [
+              107.9993430407692,
+              119.83189666011937
+            ]
+          ]
+        ],
+        "text": "Fase 1 x 45°",
+        "view": "front"
+      }
+    ]
+  },
+  "arrangement": "side-by-side",
+  "auto_dimensions": [
+    {
+      "face": 4,
+      "kind": "diameter",
+      "text": "Ø120",
+      "value": 120.0,
+      "view": "front"
+    },
+    {
+      "face": 0,
+      "kind": "diameter",
+      "text": "Ø60",
+      "value": 59.999999999999936,
+      "view": "front"
+    }
+  ],
+  "dimension_mode": "auto",
+  "dimensions": 2,
+  "frame_mm": [
+    [
+      20.0,
+      10.0
+    ],
+    [
+      287.0,
+      200.0
+    ]
+  ],
+  "layers": {
+    "CENTER": 13,
+    "DIMENSION": 16,
+    "FRAME": 5,
+    "FREEHAND": 1,
+    "HATCH": 6,
+    "HIDDEN": 12,
+    "TEXT": 50,
+    "THIN": 7,
+    "TITLE": 20,
+    "VISIBLE": 29
+  },
+  "notes": 1,
+  "notes_block": {
+    "edge_note": "Werkstückkanten ISO 13715: -0,2",
+    "enabled": true,
+    "extra_notes": [],
+    "lines": [
+      "Allgemeintoleranzen ISO 2768-m, K nach EN ISO 22081:2021",
+      "Projektionsmethode 1",
+      "Werkstückkanten ISO 13715: -0,2",
+      "Oberfläche Ra 3,2"
+    ],
+    "ra": "3,2"
+  },
+  "notes_block_mm": [
+    [
+      107.0,
+      59.0
+    ],
+    [
+      287.0,
+      87.3
+    ]
+  ],
+  "paper": "A4",
+  "prims": 159,
+  "scale": "1:2",
+  "section_mode": "auto",
+  "section_source": "default",
+  "sections": [
+    {
+      "angle_deg": 45.0,
+      "from": null,
+      "hatch_lines": 6,
+      "label": null,
+      "plane": {
+        "normal": [
+          -0.0,
+          -1.0,
+          0.0
+        ],
+        "point": [
+          -1.7228594165301527e-14,
+          -7.986213639804653e-14,
+          26.999999999999794
+        ]
+      },
+      "regions": 2,
+      "spacing_mm": 2.0,
+      "type": "breakout",
+      "view": "front"
+    }
+  ],
+  "size_mm": [
+    297.0,
+    210.0
+  ],
+  "tangent_edges": "omit",
+  "tangent_source": "default",
+  "title": {
+    "aend": "",
+    "aend_datum": "27.10.2026",
+    "allgemeintoleranz": "ISO 2768-mK",
+    "benennung": "flange",
+    "blatt": "1/1",
+    "datum": "27.10.2026",
+    "dokumentart": "Fertigungszeichnung",
+    "firma": "",
+    "geprueft": "",
+    "geprueft_datum": "",
+    "gezeichnet": "SolidCraft",
+    "gezeichnet_datum": "27.10.2026",
+    "rohmass": "Ø120 x 40",
+    "werkstoff": "n. b.",
+    "zeichnungsnummer": "flange"
+  },
+  "title_block_mm": [
+    [
+      107.0,
+      10.0
+    ],
+    [
+      287.0,
+      59.0
+    ]
+  ],
+  "undimensioned": [
+    {
+      "face": 2,
+      "kind": "diameter",
+      "value": 29.99999999999996
+    },
+    {
+      "face": 6,
+      "kind": "diameter",
+      "value": 8.999999999999993
+    },
+    {
+      "face": 8,
+      "kind": "diameter",
+      "value": 8.99999999999998
+    },
+    {
+      "face": 10,
+      "kind": "diameter",
+      "value": 9.000000000000002
+    },
+    {
+      "face": 12,
+      "kind": "diameter",
+      "value": 8.999999999999979
+    },
+    {
+      "face": 14,
+      "kind": "diameter",
+      "value": 8.999999999999998
+    },
+    {
+      "face": 16,
+      "kind": "diameter",
+      "value": 9.0
+    },
+    {
+      "face": 18,
+      "kind": "plane",
+      "value": 12.999999999999922
+    },
+    {
+      "face": 19,
+      "kind": "plane",
+      "value": -12.000000000000092
+    },
+    {
+      "face": 20,
+      "kind": "plane",
+      "value": -26.999999999999822
+    }
+  ],
+  "unplaced": [
+    "front: Fase 1 x 45°",
+    "front: Fase 1 x 45°"
+  ],
+  "view_choice": "turned",
+  "views": [
+    {
+      "bbox_mm": [
+        [
+          78.0004633134495,
+          119.33189666011941
+        ],
+        [
+          137.9995366862438,
+          139.33189666011958
+        ]
+      ],
+      "centre_lines": 5,
+      "origin_mm": [
+        107.99999999984665,
+        119.33189666011947
+      ],
+      "view": "front"
+    },
+    {
+      "bbox_mm": [
+        [
+          166.0,
+          113.65080598799204
+        ],
+        [
+          225.9990733727943,
+          173.64919401162544
+        ]
+      ],
+      "centre_lines": 8,
+      "origin_mm": [
+        195.99953668639716,
+        143.65000000000003
+      ],
+      "view": "top"
+    }
+  ],
+  "warnings": []
+}

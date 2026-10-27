@@ -1,0 +1,370 @@
+{
+  "annotations": {
+    "dimensions": [
+      {
+        "angle_deg": 0.0,
+        "def_points_mm": [
+          [
+            50.49999999999997,
+            113.65000360721115
+          ],
+          [
+            50.49999999999997,
+            143.65
+          ],
+          [
+            142.49999999999997,
+            143.65
+          ]
+        ],
+        "measured": 92.0,
+        "text": "92",
+        "text_mm": [
+          96.49999999999997,
+          116.40000360721115
+        ],
+        "text_shift_mm": 0.0,
+        "view": "top"
+      },
+      {
+        "angle_deg": 90.0,
+        "def_points_mm": [
+          [
+            40.49999999999997,
+            123.65000360721115
+          ],
+          [
+            70.51201201201198,
+            123.65000360721115
+          ],
+          [
+            70.51201201201152,
+            163.64999639278886
+          ]
+        ],
+        "measured": 39.99999278557772,
+        "text": "40",
+        "text_mm": [
+          37.74999999999997,
+          143.65
+        ],
+        "text_shift_mm": 0.0,
+        "view": "top"
+      },
+      {
+        "angle_deg": 90.0,
+        "def_points_mm": [
+          [
+            157.49999999999997,
+            143.65
+          ],
+          [
+            167.49999999999997,
+            143.65
+          ],
+          [
+            167.49999999999997,
+            153.65
+          ]
+        ],
+        "measured": 10.0,
+        "text": "10",
+        "text_mm": [
+          154.74999999999997,
+          159.61030640668525
+        ],
+        "text_shift_mm": 10.960306406685238,
+        "view": "front"
+      },
+      {
+        "angle_deg": 45.0,
+        "def_points_mm": [
+          [
+            64.84314575050759,
+            137.99314575050764
+          ],
+          [
+            64.84314575050759,
+            137.99314575050764
+          ],
+          [
+            76.15685424949235,
+            149.30685424949237
+          ]
+        ],
+        "measured": 16.000000000000004,
+        "text": "Ø16",
+        "text_mm": [
+          90.37432924475641,
+          167.41341654128246
+        ],
+        "text_shift_mm": 30.85654596100278,
+        "view": "top"
+      },
+      {
+        "angle_deg": 45.0,
+        "def_points_mm": [
+          [
+            126.96446609406725,
+            140.11446609406724
+          ],
+          [
+            126.96446609406725,
+            140.11446609406724
+          ],
+          [
+            134.03553390593277,
+            147.18553390593277
+          ]
+        ],
+        "measured": 10.000000000000043,
+        "text": "Ø10",
+        "text_mm": [
+          119.46450552007538,
+          136.5035928166014
+        ],
+        "text_shift_mm": -12.856545961002821,
+        "view": "top"
+      },
+      {
+        "angle_deg": 0.0,
+        "def_points_mm": [
+          [
+            70.49999999999997,
+            173.64999639278886
+          ],
+          [
+            70.49999999999997,
+            151.64856040030023
+          ],
+          [
+            130.5,
+            148.64808466035888
+          ]
+        ],
+        "measured": 60.000000000000036,
+        "text": "60",
+        "text_mm": [
+          100.49999999999999,
+          176.39999639278886
+        ],
+        "text_shift_mm": 0.0,
+        "view": "top"
+      },
+      {
+        "angle_deg": 12.476392263157669,
+        "def_points_mm": [
+          [
+            130.49999999999997,
+            143.65
+          ],
+          [
+            130.49999999999997,
+            143.65
+          ],
+          [
+            142.21662125340646,
+            146.24244795593344
+          ]
+        ],
+        "measured": 11.999999999999998,
+        "text": "R12",
+        "text_mm": [
+          149.16026599790987,
+          150.59532721366213
+        ],
+        "text_shift_mm": 13.720055710306408,
+        "view": "top"
+      },
+      {
+        "angle_deg": 101.20775583700822,
+        "def_points_mm": [
+          [
+            70.49999999999997,
+            143.65
+          ],
+          [
+            70.49999999999997,
+            143.65
+          ],
+          [
+            66.61265727342544,
+            163.26857707699895
+          ]
+        ],
+        "measured": 20.0,
+        "text": "R20",
+        "text_mm": [
+          65.08130574331045,
+          156.84849432899526
+        ],
+        "text_shift_mm": 4.0,
+        "view": "top"
+      }
+    ],
+    "notes": []
+  },
+  "arrangement": "side-by-side",
+  "auto_dimensions": [
+    {
+      "face": 0,
+      "kind": "overall",
+      "text": "92",
+      "value": 92.0,
+      "view": "top"
+    },
+    {
+      "face": 0,
+      "kind": "overall",
+      "text": "40",
+      "value": 39.99999278557772,
+      "view": "top"
+    },
+    {
+      "face": 0,
+      "kind": "overall",
+      "text": "10",
+      "value": 10.0,
+      "view": "front"
+    },
+    {
+      "face": 5,
+      "kind": "hole",
+      "text": "Ø16",
+      "value": 16.000000000000004,
+      "view": "top"
+    },
+    {
+      "face": 7,
+      "kind": "hole",
+      "text": "Ø10",
+      "value": 10.000000000000043,
+      "view": "top"
+    },
+    {
+      "face": 7,
+      "kind": "position",
+      "text": "60",
+      "value": 60.000000000000036,
+      "view": "top"
+    },
+    {
+      "face": 2,
+      "kind": "radius",
+      "text": "R12",
+      "value": 11.999999999999998,
+      "view": "top"
+    },
+    {
+      "face": 4,
+      "kind": "radius",
+      "text": "R20",
+      "value": 20.0,
+      "view": "top"
+    }
+  ],
+  "dimension_mode": "auto",
+  "dimensions": 8,
+  "entities": 155,
+  "format": "dxf",
+  "notes": 0,
+  "notes_block": {
+    "edge_note": "Werkstückkanten ISO 13715: -0,2",
+    "enabled": true,
+    "extra_notes": [],
+    "lines": [
+      "Allgemeintoleranzen ISO 2768-m, K nach EN ISO 22081:2021",
+      "Projektionsmethode 1",
+      "Werkstückkanten ISO 13715: -0,2",
+      "Oberfläche Ra 3,2"
+    ],
+    "ra": "3,2"
+  },
+  "notes_block_mm": [
+    [
+      107.0,
+      59.0
+    ],
+    [
+      287.0,
+      87.3
+    ]
+  ],
+  "path": "fixtures/crank/snapshot/crank.dxf",
+  "prims": 155,
+  "scale": "1:1",
+  "section_mode": "auto",
+  "section_source": "default",
+  "sections": [],
+  "tangent_edges": "omit",
+  "tangent_source": "default",
+  "title": {
+    "aend": "",
+    "aend_datum": "27.10.2026",
+    "allgemeintoleranz": "ISO 2768-mK",
+    "benennung": "crank",
+    "blatt": "1/1",
+    "datum": "27.10.2026",
+    "dokumentart": "Fertigungszeichnung",
+    "firma": "",
+    "geprueft": "",
+    "geprueft_datum": "",
+    "gezeichnet": "SolidCraft",
+    "gezeichnet_datum": "27.10.2026",
+    "rohmass": "92 x 40 x 10",
+    "werkstoff": "n. b.",
+    "zeichnungsnummer": "crank"
+  },
+  "title_block_mm": [
+    [
+      107.0,
+      10.0
+    ],
+    [
+      287.0,
+      59.0
+    ]
+  ],
+  "undimensioned": [],
+  "unplaced": [],
+  "view_choice": "flat",
+  "views": [
+    {
+      "bbox_mm": [
+        [
+          50.49999999999997,
+          123.65000360721115
+        ],
+        [
+          142.49999999999997,
+          163.64999639278886
+        ]
+      ],
+      "centre_lines": 3,
+      "origin_mm": [
+        70.49999999999997,
+        143.65
+      ],
+      "view": "top"
+    },
+    {
+      "bbox_mm": [
+        [
+          167.49999999999997,
+          143.65
+        ],
+        [
+          259.50000000000006,
+          153.65
+        ]
+      ],
+      "centre_lines": 2,
+      "origin_mm": [
+        187.49999999999997,
+        143.65
+      ],
+      "view": "front"
+    }
+  ],
+  "warnings": []
+}

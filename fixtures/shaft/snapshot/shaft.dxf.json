@@ -1,0 +1,394 @@
+{
+  "annotations": {
+    "dimensions": [
+      {
+        "angle_deg": 90.0,
+        "def_points_mm": [
+          [
+            138.0,
+            153.64999999999998
+          ],
+          [
+            138.0,
+            153.64999999999998
+          ],
+          [
+            138.0,
+            133.64999999999998
+          ]
+        ],
+        "measured": 20.000000000000004,
+        "text": "Ø20",
+        "text_mm": [
+          135.25,
+          128.2934540389972
+        ],
+        "text_shift_mm": -15.356545961002785,
+        "view": "front"
+      },
+      {
+        "angle_deg": 90.0,
+        "def_points_mm": [
+          [
+            165.5,
+            157.64999999999998
+          ],
+          [
+            165.5,
+            157.64999999999998
+          ],
+          [
+            165.5,
+            129.64999999999998
+          ]
+        ],
+        "measured": 27.999999999999993,
+        "text": "Ø28",
+        "text_mm": [
+          162.75,
+          149.64999999999998
+        ],
+        "text_shift_mm": 6.0,
+        "view": "front"
+      },
+      {
+        "angle_deg": 90.0,
+        "def_points_mm": [
+          [
+            213.0,
+            151.64999999999998
+          ],
+          [
+            213.0,
+            151.64999999999998
+          ],
+          [
+            213.0,
+            135.64999999999998
+          ]
+        ],
+        "measured": 15.999999999999996,
+        "text": "Ø16",
+        "text_mm": [
+          210.25,
+          130.2934540389972
+        ],
+        "text_shift_mm": -13.356545961002785,
+        "view": "front"
+      },
+      {
+        "angle_deg": 0.0,
+        "def_points_mm": [
+          [
+            123.0,
+            119.65000000000005
+          ],
+          [
+            123.0,
+            133.65413762828982
+          ],
+          [
+            153.0,
+            129.65579267960572
+          ]
+        ],
+        "measured": 30.0,
+        "text": "30",
+        "text_mm": [
+          142.0,
+          122.40000000000005
+        ],
+        "text_shift_mm": 4.0,
+        "view": "front"
+      },
+      {
+        "angle_deg": 0.0,
+        "def_points_mm": [
+          [
+            153.0,
+            119.65000000000005
+          ],
+          [
+            153.0,
+            129.65579267960572
+          ],
+          [
+            203.0,
+            129.65579267960572
+          ]
+        ],
+        "measured": 50.0,
+        "text": "50",
+        "text_mm": [
+          178.0,
+          122.40000000000005
+        ],
+        "text_shift_mm": 0.0,
+        "view": "front"
+      },
+      {
+        "angle_deg": 0.0,
+        "def_points_mm": [
+          [
+            123.0,
+            111.65000000000005
+          ],
+          [
+            123.0,
+            133.65413762828982
+          ],
+          [
+            243.0,
+            135.65331010263185
+          ]
+        ],
+        "measured": 120.0,
+        "text": "120",
+        "text_mm": [
+          183.0,
+          114.40000000000003
+        ],
+        "text_shift_mm": 0.0,
+        "view": "front"
+      },
+      {
+        "angle_deg": 0.0,
+        "def_points_mm": [
+          [
+            123.0,
+            167.65000000000003
+          ],
+          [
+            123.0,
+            153.64586237171025
+          ],
+          [
+            178.0,
+            157.3248267432603
+          ]
+        ],
+        "measured": 54.99999999999999,
+        "text": "55",
+        "text_mm": [
+          150.5,
+          170.40000000000003
+        ],
+        "text_shift_mm": 0.0,
+        "view": "front"
+      }
+    ],
+    "notes": [
+      {
+        "leader": [
+          [
+            [
+              251.35515320334264,
+              152.64999999999998
+            ],
+            [
+              243.0,
+              147.64999999999998
+            ]
+          ]
+        ],
+        "text": "Bohrung Ø8 x 20 tief",
+        "view": "front"
+      },
+      {
+        "leader": [
+          [
+            [
+              176.95369080779943,
+              162.6499999827627
+            ],
+            [
+              175.0,
+              157.6499999827627
+            ]
+          ]
+        ],
+        "text": "Bohrung Ø6 durchgehend",
+        "view": "front"
+      }
+    ]
+  },
+  "arrangement": "first-angle",
+  "auto_dimensions": [
+    {
+      "face": 7,
+      "kind": "diameter",
+      "text": "Ø20",
+      "value": 20.000000000000004,
+      "view": "front"
+    },
+    {
+      "face": 5,
+      "kind": "diameter",
+      "text": "Ø28",
+      "value": 27.999999999999993,
+      "view": "front"
+    },
+    {
+      "face": 3,
+      "kind": "diameter",
+      "text": "Ø16",
+      "value": 15.999999999999998,
+      "view": "front"
+    },
+    {
+      "face": 18,
+      "kind": "length",
+      "text": "30",
+      "value": 30.0,
+      "view": "front"
+    },
+    {
+      "face": 6,
+      "kind": "length",
+      "text": "50",
+      "value": 50.0,
+      "view": "front"
+    },
+    {
+      "face": 18,
+      "kind": "length",
+      "text": "120",
+      "value": 120.0,
+      "view": "front"
+    },
+    {
+      "face": 19,
+      "kind": "position",
+      "text": "55",
+      "value": 54.99999999999999,
+      "view": "front"
+    }
+  ],
+  "dimension_mode": "auto",
+  "dimensions": 7,
+  "entities": 457,
+  "format": "dxf",
+  "notes": 2,
+  "notes_block": {
+    "edge_note": "Werkstückkanten ISO 13715: -0,2",
+    "enabled": true,
+    "extra_notes": [],
+    "lines": [
+      "Allgemeintoleranzen ISO 2768-m, K nach EN ISO 22081:2021",
+      "Projektionsmethode 1",
+      "Werkstückkanten ISO 13715: -0,2",
+      "Oberfläche Ra 3,2"
+    ],
+    "ra": "3,2"
+  },
+  "notes_block_mm": [
+    [
+      107.0,
+      59.0
+    ],
+    [
+      287.0,
+      87.3
+    ]
+  ],
+  "path": "fixtures/shaft/snapshot/shaft.dxf",
+  "prims": 457,
+  "scale": "1:1",
+  "section_mode": "auto",
+  "section_source": "default",
+  "sections": [
+    {
+      "angle_deg": 45.0,
+      "from": null,
+      "hatch_lines": 19,
+      "label": null,
+      "plane": {
+        "normal": [
+          -0.0,
+          -1.0,
+          0.0
+        ],
+        "point": [
+          97.59655752388977,
+          -3.8341827537092806e-15,
+          -5.6506735555871346e-14
+        ]
+      },
+      "regions": 4,
+      "spacing_mm": 2.0,
+      "type": "breakout",
+      "view": "front"
+    }
+  ],
+  "tangent_edges": "omit",
+  "tangent_source": "default",
+  "title": {
+    "aend": "",
+    "aend_datum": "27.10.2026",
+    "allgemeintoleranz": "ISO 2768-mK",
+    "benennung": "shaft",
+    "blatt": "1/1",
+    "datum": "27.10.2026",
+    "dokumentart": "Fertigungszeichnung",
+    "firma": "",
+    "geprueft": "",
+    "geprueft_datum": "",
+    "gezeichnet": "SolidCraft",
+    "gezeichnet_datum": "27.10.2026",
+    "rohmass": "Ø28 x 120",
+    "werkstoff": "n. b.",
+    "zeichnungsnummer": "shaft"
+  },
+  "title_block_mm": [
+    [
+      107.0,
+      10.0
+    ],
+    [
+      287.0,
+      59.0
+    ]
+  ],
+  "undimensioned": [],
+  "unplaced": [],
+  "view_choice": "turned",
+  "views": [
+    {
+      "bbox_mm": [
+        [
+          123.0,
+          129.65000000000003
+        ],
+        [
+          243.0,
+          157.65000000000003
+        ]
+      ],
+      "centre_lines": 2,
+      "origin_mm": [
+        123.0,
+        143.65000000000003
+      ],
+      "view": "front"
+    },
+    {
+      "bbox_mm": [
+        [
+          64.0,
+          129.64999999999998
+        ],
+        [
+          92.0,
+          157.65000000000003
+        ]
+      ],
+      "centre_lines": 2,
+      "origin_mm": [
+        78.0,
+        143.65000000000003
+      ],
+      "view": "right"
+    }
+  ],
+  "warnings": []
+}

@@ -1,0 +1,398 @@
+{
+ "part": "crank",
+ "scale": "1:1",
+ "paper": "A4",
+ "arrangement": "side-by-side",
+ "view_choice": "flat",
+ "views": [
+  {
+   "view": "top",
+   "origin_mm": [
+    70.49999999999997,
+    143.65
+   ],
+   "bbox_mm": [
+    [
+     50.49999999999997,
+     123.65000360721115
+    ],
+    [
+     142.49999999999997,
+     163.64999639278886
+    ]
+   ]
+  },
+  {
+   "view": "front",
+   "origin_mm": [
+    187.49999999999997,
+    143.65
+   ],
+   "bbox_mm": [
+    [
+     167.49999999999997,
+     143.65
+    ],
+    [
+     259.50000000000006,
+     153.65
+    ]
+   ]
+  }
+ ],
+ "layers_sheet": {
+  "CENTER": 5,
+  "DIMENSION": 54,
+  "FRAME": 5,
+  "HIDDEN": 4,
+  "TEXT": 50,
+  "THIN": 7,
+  "TITLE": 20,
+  "VISIBLE": 10
+ },
+ "dxf": {
+  "acadver": "AC1015",
+  "insunits": 4,
+  "measurement": 1,
+  "lwdisplay": 1,
+  "modelspace_counts": {
+   "LINE": 15,
+   "CIRCLE": 2,
+   "ARC": 2,
+   "DIMENSION": 8
+  },
+  "modelspace_total": 27,
+  "layouts": {
+   "Blatt 1": {
+    "counts": {
+     "INSERT": 1,
+     "VIEWPORT": 1
+    },
+    "viewports": [
+     {
+      "center": [
+       148.5,
+       105.0
+      ],
+      "width": 297.0,
+      "height": 210.0,
+      "view_center": [
+       148.5,
+       105.0
+      ],
+      "view_height": 210.0,
+      "zoom_paper_per_model": 1.0
+     }
+    ]
+   }
+  },
+  "layers": [
+   {
+    "name": "0",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "FRAME",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.7,
+    "entities": 0
+   },
+   {
+    "name": "VISIBLE",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.5,
+    "entities": 10
+   },
+   {
+    "name": "HIDDEN",
+    "linetype": "HIDDEN",
+    "lineweight_mm": 0.25,
+    "entities": 4
+   },
+   {
+    "name": "THIN",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "CENTER",
+    "linetype": "CENTER",
+    "lineweight_mm": 0.25,
+    "entities": 5
+   },
+   {
+    "name": "DIMENSION",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 8
+   },
+   {
+    "name": "HATCH",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "SECTION",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.5,
+    "entities": 0
+   },
+   {
+    "name": "SECTION_LINE",
+    "linetype": "ISO_SECTION",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "TANGENT",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "FREEHAND",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "TITLE",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "TEXT",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "TITLE_BLOCK",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "VIEWPORT",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "Defpoints",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.0,
+    "entities": 0
+   }
+  ],
+  "entity_lineweights": [
+   -1
+  ],
+  "visible_extents_sheet_mm": [
+   [
+    50.5,
+    123.64947952590553
+   ],
+   [
+    259.5,
+    163.6505204740945
+   ]
+  ],
+  "curves": [
+   {
+    "type": "CIRCLE",
+    "layer": "VISIBLE",
+    "view": "top",
+    "centre_part_mm": [
+     0.0,
+     0.0
+    ],
+    "radius_part_mm": 8.0
+   },
+   {
+    "type": "ARC",
+    "layer": "VISIBLE",
+    "view": "top",
+    "centre_part_mm": [
+     0.0,
+     0.0
+    ],
+    "radius_part_mm": 20.0,
+    "angles_deg": [
+     82.338,
+     277.662
+    ]
+   },
+   {
+    "type": "CIRCLE",
+    "layer": "VISIBLE",
+    "view": "top",
+    "centre_part_mm": [
+     60.0,
+     0.0
+    ],
+    "radius_part_mm": 5.0
+   },
+   {
+    "type": "ARC",
+    "layer": "VISIBLE",
+    "view": "top",
+    "centre_part_mm": [
+     60.0,
+     0.0
+    ],
+    "radius_part_mm": 12.0,
+    "angles_deg": [
+     277.662,
+     82.338
+    ]
+   }
+  ],
+  "dimensions": [
+   {
+    "type": "linear",
+    "layer": "DIMENSION",
+    "text_override": "",
+    "block_text": [
+     "92"
+    ],
+    "displayed": "92",
+    "group42": 92.0,
+    "defpoint_sheet_mm": 92.0,
+    "dimlfac": 1.0,
+    "regenerated_value": 92.0,
+    "part_value_from_geometry": 92.0
+   },
+   {
+    "type": "linear",
+    "layer": "DIMENSION",
+    "text_override": "",
+    "block_text": [
+     "40"
+    ],
+    "displayed": "40",
+    "group42": 40.0,
+    "defpoint_sheet_mm": 40.0,
+    "dimlfac": 1.0,
+    "regenerated_value": 40.0,
+    "part_value_from_geometry": 40.0
+   },
+   {
+    "type": "linear",
+    "layer": "DIMENSION",
+    "text_override": "",
+    "block_text": [
+     "10"
+    ],
+    "displayed": "10",
+    "group42": 10.0,
+    "defpoint_sheet_mm": 10.0,
+    "dimlfac": 1.0,
+    "regenerated_value": 10.0,
+    "part_value_from_geometry": 10.0
+   },
+   {
+    "type": "diameter",
+    "layer": "DIMENSION",
+    "text_override": "Ø16",
+    "block_text": [
+     "Ø16"
+    ],
+    "displayed": "Ø16",
+    "group42": 16.0,
+    "defpoint_sheet_mm": 16.0,
+    "dimlfac": 1.0,
+    "regenerated_value": 16.0,
+    "part_value_from_geometry": 16.0
+   },
+   {
+    "type": "diameter",
+    "layer": "DIMENSION",
+    "text_override": "Ø10",
+    "block_text": [
+     "Ø10"
+    ],
+    "displayed": "Ø10",
+    "group42": 10.0,
+    "defpoint_sheet_mm": 10.0,
+    "dimlfac": 1.0,
+    "regenerated_value": 10.0,
+    "part_value_from_geometry": 10.0
+   },
+   {
+    "type": "linear",
+    "layer": "DIMENSION",
+    "text_override": "",
+    "block_text": [
+     "60"
+    ],
+    "displayed": "60",
+    "group42": 60.0,
+    "defpoint_sheet_mm": 60.0,
+    "dimlfac": 1.0,
+    "regenerated_value": 60.0,
+    "part_value_from_geometry": 60.0
+   },
+   {
+    "type": "radius",
+    "layer": "DIMENSION",
+    "text_override": "R12",
+    "block_text": [
+     "R12"
+    ],
+    "displayed": "R12",
+    "group42": 12.0,
+    "defpoint_sheet_mm": 12.0,
+    "dimlfac": 1.0,
+    "regenerated_value": 12.0,
+    "part_value_from_geometry": 12.0
+   },
+   {
+    "type": "radius",
+    "layer": "DIMENSION",
+    "text_override": "R20",
+    "block_text": [
+     "R20"
+    ],
+    "displayed": "R20",
+    "group42": 20.0,
+    "defpoint_sheet_mm": 20.0,
+    "dimlfac": 1.0,
+    "regenerated_value": 20.0,
+    "part_value_from_geometry": 20.0
+   }
+  ],
+  "audit": {
+   "errors": 0,
+   "fixes": 0,
+   "messages": []
+  }
+ },
+ "pdf": {
+  "page_mm": [
+   297.0,
+   210.002
+  ],
+  "stroke_widths_mm": {
+   "0.0": 14,
+   "0.25": 68,
+   "0.5": 10,
+   "0.7": 5
+  },
+  "visible_bbox_mm": {
+   "top": {
+    "w": 92.0,
+    "h": 39.999
+   },
+   "front": {
+    "w": 92.0,
+    "h": 10.0
+   }
+  }
+ }
+}

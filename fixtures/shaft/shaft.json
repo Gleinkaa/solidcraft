@@ -1,0 +1,8 @@
+{"commands":[
+  {"command":"sketch.create","params":{"plane":"XY","name":"ShaftProfile"}},
+  {"command":"sketch.line","params":{"points":[[0,0],[0,10],[30,10],[30,14],[80,14],[80,8],[120,8],[120,4],[100,4],[97.59655752388976,0]],"closed":true}},
+  {"command":"sketch.finish","params":{}},
+  {"command":"solid.revolve","params":{"sketch":"ShaftProfile","axis":"x","angle":360,"body_name":"Shaft"}},
+  {"command":"solid.cylinder","params":{"radius":3,"height":40,"base":[55,0,-20],"axis":"Z","body_name":"CrossHole"}},
+  {"command":"solid.combine","params":{"target":"Shaft","tools":["CrossHole"],"operation":"cut"}}
+]}

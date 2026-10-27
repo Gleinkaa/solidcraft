@@ -1,0 +1,8 @@
+{"commands":[
+ {"command":"solid.cylinder","params":{"diameter":120,"height":15,"base":[0,0,0],"axis":"Z","name":"Disc","body_name":"Flansch"}},
+ {"command":"solid.cylinder","params":{"diameter":60,"height":25,"base":[0,0,15],"axis":"Z","operation":"join","targets":["Flansch"],"name":"Hub"}},
+ {"command":"solid.hole","params":{"position":[0,0,40],"diameter":30,"name":"Bore"}},
+ {"command":"solid.hole","params":{"position":[47.5,0,15],"diameter":9,"name":"BoltHole"}},
+ {"command":"solid.pattern.circular","params":{"features":["BoltHole"],"axis":"Z","count":6,"name":"BoltPattern"}},
+ {"command":"solid.chamfer","params":{"edges":[[60,0,0],[60,0,15],[30,0,40]],"distance":1,"name":"Chamfer1x45"}}
+]}

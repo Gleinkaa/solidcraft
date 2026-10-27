@@ -1,0 +1,12 @@
+{
+ "_note": "Hand-derived from the recipes (fixtures/<part>/<part>.json), part mm, in each view's own coordinates (the sheet's view origin). theta = acos((20-12)/60) = 82.3377 deg for the crank's external tangents. PCD r = 47.5: 47.5*sin60 = 41.1362.",
+ "shaft":   {"main": ["front", 120, 28], "curves": [["right",0,0,4],["right",0,0,8],["right",0,0,14],["right",0,0,10,"hidden"]]},
+ "crank":   {"main": ["top", 92, 40], "curves": [["top",0,0,8],["top",0,0,20,null,82.3377,277.6623],["top",60,0,5],["top",60,0,12,null,277.6623,82.3377]]},
+ "flywheel":{"main": ["front", 120, 35], "curves": [["top",0,0,8],["top",0,0,20],["top",0,0,45],["top",0,0,60]]},
+ "flange":  {"main": ["front", 120, 40], "curves": [["top",0,0,15],["top",0,0,29],["top",0,0,30],["top",0,0,59],["top",0,0,60],
+             ["top",47.5,0,4.5],["top",-47.5,0,4.5],["top",23.75,41.1362,4.5],["top",-23.75,41.1362,4.5],["top",23.75,-41.1362,4.5],["top",-23.75,-41.1362,4.5]]},
+ "bracket": {"main": ["front", 80, 50], "curves": [["front",16,16,16,null,180,270],["front",16,16,8,null,180,270],["top",55,15,3.3],["top",55,45,3.3],
+             ["right",23.3,33,3.3,null,90,270],["right",36.7,33,3.3,null,270,90]]},
+ "housing": {"main": ["front", 100, 40], "curves": [["top",50,30,17.5],["top",12,30,5.5],["top",88,30,5.5],["top",12,30,3.3],["top",88,30,3.3],
+             ["top",30,15,5,null,180,270],["top",70,15,5,null,270,360],["top",70,45,5,null,0,90],["top",30,45,5,null,90,180]]}
+}

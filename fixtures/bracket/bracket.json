@@ -1,0 +1,12 @@
+{"commands":[
+ {"command":"solid.box","params":{"length":80,"width":60,"height":8,"corner":[0,0,0],"name":"LegLong","body_name":"Winkel"}},
+ {"command":"solid.box","params":{"length":8,"width":60,"height":50,"corner":[0,0,0],"operation":"join","targets":["Winkel"],"name":"LegShort"}},
+ {"command":"solid.fillet","params":{"edges":[[8,30,8]],"radius":8,"name":"BendInner"}},
+ {"command":"solid.fillet","params":{"edges":[[0,30,0]],"radius":16,"name":"BendOuter"}},
+ {"command":"solid.hole","params":{"position":[55,15,8],"diameter":6.6,"name":"Hole1"}},
+ {"command":"solid.hole","params":{"position":[55,45,8],"diameter":6.6,"name":"Hole2"}},
+ {"command":"sketch.create","params":{"plane":"YZ","name":"SlotSketch"}},
+ {"command":"sketch.slot.overall","params":{"p0":[20,33],"p1":[40,33],"width":6.6}},
+ {"command":"sketch.finish","params":{}},
+ {"command":"solid.extrude","params":{"sketch":"SlotSketch","through_all":true,"operation":"cut","targets":["Winkel"],"name":"Slot"}}
+]}

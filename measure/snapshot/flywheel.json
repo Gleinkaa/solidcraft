@@ -1,0 +1,367 @@
+{
+ "part": "flywheel",
+ "scale": "1:2",
+ "paper": "A4",
+ "arrangement": "side-by-side",
+ "view_choice": "turned",
+ "views": [
+  {
+   "view": "front",
+   "origin_mm": [
+    108.0,
+    134.9
+   ],
+   "bbox_mm": [
+    [
+     78.0,
+     134.9
+    ],
+    [
+     138.0,
+     152.4
+    ]
+   ]
+  },
+  {
+   "view": "top",
+   "origin_mm": [
+    196.0,
+    143.65
+   ],
+   "bbox_mm": [
+    [
+     165.99999999999997,
+     113.65
+    ],
+    [
+     226.0,
+     173.65
+    ]
+   ]
+  }
+ ],
+ "layers_sheet": {
+  "CENTER": 3,
+  "DIMENSION": 44,
+  "FRAME": 5,
+  "HATCH": 22,
+  "HIDDEN": 1,
+  "SECTION": 4,
+  "SECTION_LINE": 1,
+  "TEXT": 53,
+  "THIN": 7,
+  "TITLE": 20,
+  "VISIBLE": 30
+ },
+ "dxf": {
+  "acadver": "AC1015",
+  "insunits": 4,
+  "measurement": 1,
+  "lwdisplay": 1,
+  "modelspace_counts": {
+   "LINE": 33,
+   "TEXT": 3,
+   "CIRCLE": 4,
+   "SOLID": 2,
+   "DIMENSION": 6,
+   "HATCH": 2
+  },
+  "modelspace_total": 50,
+  "layouts": {
+   "Blatt 1": {
+    "counts": {
+     "INSERT": 1,
+     "VIEWPORT": 1
+    },
+    "viewports": [
+     {
+      "center": [
+       148.5,
+       105.0
+      ],
+      "width": 297.0,
+      "height": 210.0,
+      "view_center": [
+       148.5,
+       105.0
+      ],
+      "view_height": 210.0,
+      "zoom_paper_per_model": 1.0
+     }
+    ]
+   }
+  },
+  "layers": [
+   {
+    "name": "0",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "FRAME",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.7,
+    "entities": 0
+   },
+   {
+    "name": "VISIBLE",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.5,
+    "entities": 30
+   },
+   {
+    "name": "HIDDEN",
+    "linetype": "HIDDEN",
+    "lineweight_mm": 0.25,
+    "entities": 1
+   },
+   {
+    "name": "THIN",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "CENTER",
+    "linetype": "CENTER",
+    "lineweight_mm": 0.25,
+    "entities": 3
+   },
+   {
+    "name": "DIMENSION",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 6
+   },
+   {
+    "name": "HATCH",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 2
+   },
+   {
+    "name": "SECTION",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.5,
+    "entities": 4
+   },
+   {
+    "name": "SECTION_LINE",
+    "linetype": "ISO_SECTION",
+    "lineweight_mm": 0.25,
+    "entities": 1
+   },
+   {
+    "name": "TANGENT",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "FREEHAND",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "TITLE",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "TEXT",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 3
+   },
+   {
+    "name": "TITLE_BLOCK",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "VIEWPORT",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "Defpoints",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.0,
+    "entities": 0
+   }
+  ],
+  "entity_lineweights": [
+   -1
+  ],
+  "visible_extents_sheet_mm": [
+   [
+    78.0,
+    113.65
+   ],
+   [
+    226.0,
+    173.65
+   ]
+  ],
+  "curves": [
+   {
+    "type": "CIRCLE",
+    "layer": "VISIBLE",
+    "view": "top",
+    "centre_part_mm": [
+     0.0,
+     0.0
+    ],
+    "radius_part_mm": 45.0
+   },
+   {
+    "type": "CIRCLE",
+    "layer": "VISIBLE",
+    "view": "top",
+    "centre_part_mm": [
+     0.0,
+     0.0
+    ],
+    "radius_part_mm": 60.0
+   },
+   {
+    "type": "CIRCLE",
+    "layer": "VISIBLE",
+    "view": "top",
+    "centre_part_mm": [
+     0.0,
+     0.0
+    ],
+    "radius_part_mm": 20.0
+   },
+   {
+    "type": "CIRCLE",
+    "layer": "VISIBLE",
+    "view": "top",
+    "centre_part_mm": [
+     0.0,
+     0.0
+    ],
+    "radius_part_mm": 8.0
+   }
+  ],
+  "dimensions": [
+   {
+    "type": "diameter",
+    "layer": "DIMENSION",
+    "text_override": "Ø120",
+    "block_text": [
+     "Ø120"
+    ],
+    "displayed": "Ø120",
+    "group42": 120.0,
+    "defpoint_sheet_mm": 60.0,
+    "dimlfac": 1.0,
+    "regenerated_value": 60.0,
+    "part_value_from_geometry": 120.0
+   },
+   {
+    "type": "diameter",
+    "layer": "DIMENSION",
+    "text_override": "Ø40",
+    "block_text": [
+     "Ø40"
+    ],
+    "displayed": "Ø40",
+    "group42": 40.0,
+    "defpoint_sheet_mm": 20.0,
+    "dimlfac": 1.0,
+    "regenerated_value": 20.0,
+    "part_value_from_geometry": 40.0
+   },
+   {
+    "type": "linear",
+    "layer": "DIMENSION",
+    "text_override": "",
+    "block_text": [
+     "20"
+    ],
+    "displayed": "20",
+    "group42": 20.0,
+    "defpoint_sheet_mm": 10.0,
+    "dimlfac": 1.0,
+    "regenerated_value": 10.0,
+    "part_value_from_geometry": 20.0
+   },
+   {
+    "type": "linear",
+    "layer": "DIMENSION",
+    "text_override": "",
+    "block_text": [
+     "35"
+    ],
+    "displayed": "35",
+    "group42": 35.0,
+    "defpoint_sheet_mm": 17.5,
+    "dimlfac": 1.0,
+    "regenerated_value": 17.5,
+    "part_value_from_geometry": 35.0
+   },
+   {
+    "type": "diameter",
+    "layer": "DIMENSION",
+    "text_override": "Ø16",
+    "block_text": [
+     "Ø16"
+    ],
+    "displayed": "Ø16",
+    "group42": 16.0,
+    "defpoint_sheet_mm": 8.0,
+    "dimlfac": 1.0,
+    "regenerated_value": 8.0,
+    "part_value_from_geometry": 16.0
+   },
+   {
+    "type": "diameter",
+    "layer": "DIMENSION",
+    "text_override": "Ø90 x 10 tief",
+    "block_text": [
+     "Ø90 x 10 tief"
+    ],
+    "displayed": "Ø90 x 10 tief",
+    "group42": 90.0,
+    "defpoint_sheet_mm": 45.0,
+    "dimlfac": 1.0,
+    "regenerated_value": 45.0,
+    "part_value_from_geometry": 90.0
+   }
+  ],
+  "audit": {
+   "errors": 0,
+   "fixes": 0,
+   "messages": []
+  }
+ },
+ "pdf": {
+  "page_mm": [
+   297.0,
+   210.002
+  ],
+  "stroke_widths_mm": {
+   "0.0": 14,
+   "0.25": 80,
+   "0.5": 32,
+   "0.7": 5
+  },
+  "visible_bbox_mm": {
+   "front": {
+    "w": 60.0,
+    "h": 17.5
+   },
+   "top": {
+    "w": 60.0,
+    "h": 60.0
+   }
+  }
+ }
+}

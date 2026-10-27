@@ -1,0 +1,534 @@
+{
+ "part": "bracket",
+ "scale": "1:5",
+ "paper": "A4",
+ "arrangement": "first-angle",
+ "view_choice": "general",
+ "views": [
+  {
+   "view": "front",
+   "origin_mm": [
+    164.0,
+    157.81
+   ],
+   "bbox_mm": [
+    [
+     164.0,
+     157.81
+    ],
+    [
+     180.0,
+     167.81
+    ]
+   ]
+  },
+  {
+   "view": "top",
+   "origin_mm": [
+    164.0,
+    117.15
+   ],
+   "bbox_mm": [
+    [
+     164.0,
+     117.14999999999996
+    ],
+    [
+     180.0,
+     129.15
+    ]
+   ]
+  },
+  {
+   "view": "right",
+   "origin_mm": [
+    124.0,
+    157.81
+   ],
+   "bbox_mm": [
+    [
+     124.0,
+     157.81
+    ],
+    [
+     136.0,
+     167.81
+    ]
+   ]
+  }
+ ],
+ "layers_sheet": {
+  "CENTER": 12,
+  "DIMENSION": 81,
+  "FRAME": 5,
+  "HIDDEN": 13,
+  "TEXT": 50,
+  "THIN": 7,
+  "TITLE": 20,
+  "VISIBLE": 27
+ },
+ "dxf": {
+  "acadver": "AC1015",
+  "insunits": 4,
+  "measurement": 1,
+  "lwdisplay": 1,
+  "modelspace_counts": {
+   "LINE": 42,
+   "ARC": 9,
+   "CIRCLE": 2,
+   "SOLID": 1,
+   "TEXT": 1,
+   "DIMENSION": 9,
+   "LEADER": 1
+  },
+  "modelspace_total": 65,
+  "layouts": {
+   "Blatt 1": {
+    "counts": {
+     "INSERT": 1,
+     "VIEWPORT": 1
+    },
+    "viewports": [
+     {
+      "center": [
+       148.5,
+       105.0
+      ],
+      "width": 297.0,
+      "height": 210.0,
+      "view_center": [
+       148.5,
+       105.0
+      ],
+      "view_height": 210.0,
+      "zoom_paper_per_model": 1.0
+     }
+    ]
+   }
+  },
+  "layers": [
+   {
+    "name": "0",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "FRAME",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.7,
+    "entities": 0
+   },
+   {
+    "name": "VISIBLE",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.5,
+    "entities": 27
+   },
+   {
+    "name": "HIDDEN",
+    "linetype": "HIDDEN",
+    "lineweight_mm": 0.25,
+    "entities": 13
+   },
+   {
+    "name": "THIN",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "CENTER",
+    "linetype": "CENTER",
+    "lineweight_mm": 0.25,
+    "entities": 12
+   },
+   {
+    "name": "DIMENSION",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 13
+   },
+   {
+    "name": "HATCH",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "SECTION",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.5,
+    "entities": 0
+   },
+   {
+    "name": "SECTION_LINE",
+    "linetype": "ISO_SECTION",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "TANGENT",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "FREEHAND",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "TITLE",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "TEXT",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "TITLE_BLOCK",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "VIEWPORT",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "Defpoints",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.0,
+    "entities": 0
+   }
+  ],
+  "entity_lineweights": [
+   -1
+  ],
+  "visible_extents_sheet_mm": [
+   [
+    124.0,
+    117.15
+   ],
+   [
+    180.0,
+    167.81
+   ]
+  ],
+  "curves": [
+   {
+    "type": "ARC",
+    "layer": "VISIBLE",
+    "view": "front",
+    "centre_part_mm": [
+     16.0,
+     16.0
+    ],
+    "radius_part_mm": 16.0,
+    "angles_deg": [
+     180.0,
+     270.0
+    ]
+   },
+   {
+    "type": "ARC",
+    "layer": "VISIBLE",
+    "view": "front",
+    "centre_part_mm": [
+     16.0,
+     16.0
+    ],
+    "radius_part_mm": 8.0,
+    "angles_deg": [
+     180.0,
+     270.0
+    ]
+   },
+   {
+    "type": "CIRCLE",
+    "layer": "VISIBLE",
+    "view": "top",
+    "centre_part_mm": [
+     55.0,
+     15.0
+    ],
+    "radius_part_mm": 3.3
+   },
+   {
+    "type": "CIRCLE",
+    "layer": "VISIBLE",
+    "view": "top",
+    "centre_part_mm": [
+     55.0,
+     45.0
+    ],
+    "radius_part_mm": 3.3
+   },
+   {
+    "type": "ARC",
+    "layer": "VISIBLE",
+    "view": "right",
+    "centre_part_mm": [
+     36.7,
+     33.0
+    ],
+    "radius_part_mm": 3.3,
+    "angles_deg": [
+     270.0,
+     90.0
+    ]
+   },
+   {
+    "type": "ARC",
+    "layer": "VISIBLE",
+    "view": "right",
+    "centre_part_mm": [
+     23.3,
+     33.0
+    ],
+    "radius_part_mm": 3.3,
+    "angles_deg": [
+     90.0,
+     270.0
+    ]
+   },
+   {
+    "type": "ARC",
+    "layer": "HIDDEN",
+    "view": "right",
+    "centre_part_mm": [
+     36.7,
+     33.0
+    ],
+    "radius_part_mm": 3.3,
+    "angles_deg": [
+     14.25,
+     21.233
+    ]
+   },
+   {
+    "type": "ARC",
+    "layer": "HIDDEN",
+    "view": "right",
+    "centre_part_mm": [
+     36.7,
+     33.0
+    ],
+    "radius_part_mm": 3.3,
+    "angles_deg": [
+     58.716,
+     61.332
+    ]
+   },
+   {
+    "type": "ARC",
+    "layer": "HIDDEN",
+    "view": "right",
+    "centre_part_mm": [
+     36.7,
+     33.0
+    ],
+    "radius_part_mm": 3.3,
+    "angles_deg": [
+     64.011,
+     66.491
+    ]
+   },
+   {
+    "type": "ARC",
+    "layer": "HIDDEN",
+    "view": "right",
+    "centre_part_mm": [
+     36.7,
+     33.0
+    ],
+    "radius_part_mm": 3.3,
+    "angles_deg": [
+     69.017,
+     75.953
+    ]
+   },
+   {
+    "type": "ARC",
+    "layer": "HIDDEN",
+    "view": "right",
+    "centre_part_mm": [
+     36.7,
+     33.0
+    ],
+    "radius_part_mm": 3.3,
+    "angles_deg": [
+     78.188,
+     80.273
+    ]
+   }
+  ],
+  "dimensions": [
+   {
+    "type": "linear",
+    "layer": "DIMENSION",
+    "text_override": "",
+    "block_text": [
+     "80"
+    ],
+    "displayed": "80",
+    "group42": 80.0,
+    "defpoint_sheet_mm": 16.0,
+    "dimlfac": 1.0,
+    "regenerated_value": 16.0,
+    "part_value_from_geometry": 80.0
+   },
+   {
+    "type": "linear",
+    "layer": "DIMENSION",
+    "text_override": "",
+    "block_text": [
+     "60"
+    ],
+    "displayed": "60",
+    "group42": 60.0,
+    "defpoint_sheet_mm": 12.0,
+    "dimlfac": 1.0,
+    "regenerated_value": 12.0,
+    "part_value_from_geometry": 60.0
+   },
+   {
+    "type": "linear",
+    "layer": "DIMENSION",
+    "text_override": "",
+    "block_text": [
+     "50"
+    ],
+    "displayed": "50",
+    "group42": 50.0,
+    "defpoint_sheet_mm": 10.0,
+    "dimlfac": 1.0,
+    "regenerated_value": 10.0,
+    "part_value_from_geometry": 50.0
+   },
+   {
+    "type": "radius",
+    "layer": "DIMENSION",
+    "text_override": "R8",
+    "block_text": [
+     "R8"
+    ],
+    "displayed": "R8",
+    "group42": 8.0,
+    "defpoint_sheet_mm": 1.6,
+    "dimlfac": 1.0,
+    "regenerated_value": 1.6,
+    "part_value_from_geometry": 8.0
+   },
+   {
+    "type": "radius",
+    "layer": "DIMENSION",
+    "text_override": "R16",
+    "block_text": [
+     "R16"
+    ],
+    "displayed": "R16",
+    "group42": 16.0,
+    "defpoint_sheet_mm": 3.2,
+    "dimlfac": 1.0,
+    "regenerated_value": 3.2,
+    "part_value_from_geometry": 16.0
+   },
+   {
+    "type": "linear",
+    "layer": "DIMENSION",
+    "text_override": "",
+    "block_text": [
+     "55"
+    ],
+    "displayed": "55",
+    "group42": 55.0,
+    "defpoint_sheet_mm": 11.0,
+    "dimlfac": 1.0,
+    "regenerated_value": 11.0,
+    "part_value_from_geometry": 55.0
+   },
+   {
+    "type": "linear",
+    "layer": "DIMENSION",
+    "text_override": "",
+    "block_text": [
+     "15"
+    ],
+    "displayed": "15",
+    "group42": 15.0,
+    "defpoint_sheet_mm": 3.0,
+    "dimlfac": 1.0,
+    "regenerated_value": 3.0,
+    "part_value_from_geometry": 15.0
+   },
+   {
+    "type": "linear",
+    "layer": "DIMENSION",
+    "text_override": "",
+    "block_text": [
+     "45"
+    ],
+    "displayed": "45",
+    "group42": 45.0,
+    "defpoint_sheet_mm": 9.0,
+    "dimlfac": 1.0,
+    "regenerated_value": 9.0,
+    "part_value_from_geometry": 45.0
+   },
+   {
+    "type": "radius",
+    "layer": "DIMENSION",
+    "text_override": "2x R3,3",
+    "block_text": [
+     "2x R3,3"
+    ],
+    "displayed": "2x R3,3",
+    "group42": 3.3,
+    "defpoint_sheet_mm": 0.66,
+    "dimlfac": 1.0,
+    "regenerated_value": 0.66,
+    "part_value_from_geometry": 3.3
+   }
+  ],
+  "audit": {
+   "errors": 0,
+   "fixes": 0,
+   "messages": []
+  }
+ },
+ "pdf": {
+  "page_mm": [
+   297.0,
+   210.002
+  ],
+  "stroke_widths_mm": {
+   "0.0": 16,
+   "0.25": 107,
+   "0.5": 27,
+   "0.7": 5
+  },
+  "visible_bbox_mm": {
+   "front": {
+    "w": 16.0,
+    "h": 10.0
+   },
+   "top": {
+    "w": 16.0,
+    "h": 12.0
+   },
+   "right": {
+    "w": 12.0,
+    "h": 10.0
+   }
+  }
+ }
+}

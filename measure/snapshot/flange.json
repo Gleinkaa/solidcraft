@@ -1,0 +1,382 @@
+{
+ "part": "flange",
+ "scale": "1:2",
+ "paper": "A4",
+ "arrangement": "side-by-side",
+ "view_choice": "turned",
+ "views": [
+  {
+   "view": "front",
+   "origin_mm": [
+    107.99999999984665,
+    119.33189666011947
+   ],
+   "bbox_mm": [
+    [
+     78.0004633134495,
+     119.33189666011941
+    ],
+    [
+     137.9995366862438,
+     139.33189666011958
+    ]
+   ]
+  },
+  {
+   "view": "top",
+   "origin_mm": [
+    195.99953668639716,
+    143.65000000000003
+   ],
+   "bbox_mm": [
+    [
+     166.0,
+     113.65080598799204
+    ],
+    [
+     225.9990733727943,
+     173.64919401162544
+    ]
+   ]
+  }
+ ],
+ "layers_sheet": {
+  "CENTER": 13,
+  "DIMENSION": 16,
+  "FRAME": 5,
+  "FREEHAND": 1,
+  "HATCH": 6,
+  "HIDDEN": 12,
+  "TEXT": 50,
+  "THIN": 7,
+  "TITLE": 20,
+  "VISIBLE": 29
+ },
+ "dxf": {
+  "acadver": "AC1015",
+  "insunits": 4,
+  "measurement": 1,
+  "lwdisplay": 1,
+  "modelspace_counts": {
+   "LINE": 44,
+   "LWPOLYLINE": 1,
+   "CIRCLE": 11,
+   "SOLID": 1,
+   "TEXT": 1,
+   "DIMENSION": 2,
+   "LEADER": 1,
+   "HATCH": 2
+  },
+  "modelspace_total": 63,
+  "layouts": {
+   "Blatt 1": {
+    "counts": {
+     "INSERT": 1,
+     "VIEWPORT": 1
+    },
+    "viewports": [
+     {
+      "center": [
+       148.5,
+       105.0
+      ],
+      "width": 297.0,
+      "height": 210.0,
+      "view_center": [
+       148.5,
+       105.0
+      ],
+      "view_height": 210.0,
+      "zoom_paper_per_model": 1.0
+     }
+    ]
+   }
+  },
+  "layers": [
+   {
+    "name": "0",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "FRAME",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.7,
+    "entities": 0
+   },
+   {
+    "name": "VISIBLE",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.5,
+    "entities": 29
+   },
+   {
+    "name": "HIDDEN",
+    "linetype": "HIDDEN",
+    "lineweight_mm": 0.25,
+    "entities": 12
+   },
+   {
+    "name": "THIN",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "CENTER",
+    "linetype": "CENTER",
+    "lineweight_mm": 0.25,
+    "entities": 13
+   },
+   {
+    "name": "DIMENSION",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 6
+   },
+   {
+    "name": "HATCH",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 2
+   },
+   {
+    "name": "SECTION",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.5,
+    "entities": 0
+   },
+   {
+    "name": "SECTION_LINE",
+    "linetype": "ISO_SECTION",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "TANGENT",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "FREEHAND",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 1
+   },
+   {
+    "name": "TITLE",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "TEXT",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "TITLE_BLOCK",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "VIEWPORT",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.25,
+    "entities": 0
+   },
+   {
+    "name": "Defpoints",
+    "linetype": "Continuous",
+    "lineweight_mm": 0.0,
+    "entities": 0
+   }
+  ],
+  "entity_lineweights": [
+   -1
+  ],
+  "visible_extents_sheet_mm": [
+   [
+    78.00046331345,
+    113.65
+   ],
+   [
+    225.999536686397,
+    173.65
+   ]
+  ],
+  "curves": [
+   {
+    "type": "CIRCLE",
+    "layer": "VISIBLE",
+    "view": "top",
+    "centre_part_mm": [
+     -0.0,
+     -0.0
+    ],
+    "radius_part_mm": 29.0
+   },
+   {
+    "type": "CIRCLE",
+    "layer": "VISIBLE",
+    "view": "top",
+    "centre_part_mm": [
+     -0.0,
+     -0.0
+    ],
+    "radius_part_mm": 15.0
+   },
+   {
+    "type": "CIRCLE",
+    "layer": "VISIBLE",
+    "view": "top",
+    "centre_part_mm": [
+     -0.0,
+     -0.0
+    ],
+    "radius_part_mm": 60.0
+   },
+   {
+    "type": "CIRCLE",
+    "layer": "VISIBLE",
+    "view": "top",
+    "centre_part_mm": [
+     -0.0,
+     -0.0
+    ],
+    "radius_part_mm": 59.0
+   },
+   {
+    "type": "CIRCLE",
+    "layer": "VISIBLE",
+    "view": "top",
+    "centre_part_mm": [
+     -0.0,
+     -0.0
+    ],
+    "radius_part_mm": 30.0
+   },
+   {
+    "type": "CIRCLE",
+    "layer": "VISIBLE",
+    "view": "top",
+    "centre_part_mm": [
+     -47.5,
+     -0.0
+    ],
+    "radius_part_mm": 4.5
+   },
+   {
+    "type": "CIRCLE",
+    "layer": "VISIBLE",
+    "view": "top",
+    "centre_part_mm": [
+     -23.75,
+     -41.1362
+    ],
+    "radius_part_mm": 4.5
+   },
+   {
+    "type": "CIRCLE",
+    "layer": "VISIBLE",
+    "view": "top",
+    "centre_part_mm": [
+     -23.75,
+     41.1362
+    ],
+    "radius_part_mm": 4.5
+   },
+   {
+    "type": "CIRCLE",
+    "layer": "VISIBLE",
+    "view": "top",
+    "centre_part_mm": [
+     23.75,
+     -41.1362
+    ],
+    "radius_part_mm": 4.5
+   },
+   {
+    "type": "CIRCLE",
+    "layer": "VISIBLE",
+    "view": "top",
+    "centre_part_mm": [
+     23.75,
+     41.1362
+    ],
+    "radius_part_mm": 4.5
+   },
+   {
+    "type": "CIRCLE",
+    "layer": "VISIBLE",
+    "view": "top",
+    "centre_part_mm": [
+     47.5,
+     -0.0
+    ],
+    "radius_part_mm": 4.5
+   }
+  ],
+  "dimensions": [
+   {
+    "type": "diameter",
+    "layer": "DIMENSION",
+    "text_override": "Ø120",
+    "block_text": [
+     "Ø120"
+    ],
+    "displayed": "Ø120",
+    "group42": 120.0,
+    "defpoint_sheet_mm": 60.0,
+    "dimlfac": 1.0,
+    "regenerated_value": 60.0,
+    "part_value_from_geometry": 120.0
+   },
+   {
+    "type": "diameter",
+    "layer": "DIMENSION",
+    "text_override": "Ø60",
+    "block_text": [
+     "Ø60"
+    ],
+    "displayed": "Ø60",
+    "group42": 60.0,
+    "defpoint_sheet_mm": 30.0,
+    "dimlfac": 1.0,
+    "regenerated_value": 30.0,
+    "part_value_from_geometry": 60.0
+   }
+  ],
+  "audit": {
+   "errors": 0,
+   "fixes": 0,
+   "messages": []
+  }
+ },
+ "pdf": {
+  "page_mm": [
+   297.0,
+   210.002
+  ],
+  "stroke_widths_mm": {
+   "0.0": 5,
+   "0.25": 67,
+   "0.5": 29,
+   "0.7": 5
+  },
+  "visible_bbox_mm": {
+   "front": {
+    "w": 59.999,
+    "h": 20.0
+   },
+   "top": {
+    "w": 60.0,
+    "h": 60.0
+   }
+  }
+ }
+}
