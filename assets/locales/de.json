@@ -964,6 +964,7 @@
   "cmd.material_properties_validate": "Physikalische Materialdaten prüfen",
   "cmd.mesh_convert": "Netz konvertieren",
   "cmd.model_edges": "Kanten auflisten",
+  "cmd.drawing_hole_callout": "Bohrungsangabe",
   "cmd.model_faces": "Flächen auflisten",
   "cmd.model_threads": "Gewinde auflisten",
   "cmd.motion_delete": "Bewegungsuntersuchung löschen",
