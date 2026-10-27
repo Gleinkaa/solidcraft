@@ -1,12 +1,15 @@
-//! Display-only tangent joins: which edges the shaded view leaves out because the two faces meet
-//! across them with one tangent plane (G1), and which it must keep because they are a crease or
-//! an authored split.
+//! Display-only smooth joins: which edges the shaded view leaves out because they lie inside one
+//! smooth surface (the two faces meet with one tangent plane and one curvature across the edge,
+//! G2), and which it must keep because they are a crease or an authored split. A join that is
+//! only tangent (G1: a fillet's boundary, a plane tangent to a cylinder) is a feature line and is
+//! drawn.
 //!
-//! One rule for every surface: at stations along the edge, each face's outward normal is
-//! evaluated on its exact surface ([`Face::parameters`]) at the edge's exact pcurve in that face
-//! (the use's own pcurve, so a seam a face meets itself across is the same test with its two
-//! pcurves), turned by the side the shell uses the face on. The edge is smooth when the normals
-//! agree within [`ANGLE`] at every station; it is a crease where they differ by more than the
+//! One rule for every surface: at stations along the edge, each face's outward normal and its
+//! normal curvature across the edge are evaluated on its exact surface ([`Face::parameters`]) at
+//! the edge's exact pcurve in that face (the use's own pcurve, so a seam a face meets itself
+//! across is the same test with its two pcurves), turned by the side the shell uses the face on.
+//! The edge is smooth when the normals agree within [`ANGLE`] and the curvatures within [`BEND`]
+//! at every station; it is a crease where the normals differ by more than the
 //! evaluation can account for anywhere (a crease far too small to see is both). Smoothness is
 //! display-only: the edge keeps its identity, stays pickable and stays in the wireframe, and its
 //! faces stay apart (pieces of one surface are [`crate::topo::seam_flags`]'s business). Unknown
@@ -28,10 +31,20 @@ const STATIONS: usize = 8;
 /// degree. Shading is the visible trace of a join: across a crease of angle θ the lit intensity
 /// jumps by at most about θ of its range, and half a degree (0.0087) is under 1%, below the
 /// 1–2% step the eye tells apart on a smooth gradient. So a join this close to tangent shows no
-/// line in the shading, and drawing one would only show how the surface was cut into faces
-/// (a thread's flank pieces, a sweep's spans). Exact tangency (fillets, analytic seams) reads
-/// 1e-12 or so, far inside it; real creases a model means are degrees.
+/// line in the shading. Exact tangency (fillets, analytic seams) reads 1e-12 or so, far inside
+/// it; real creases a model means are degrees. Tangency alone does not hide an edge ([`BEND`]).
 const ANGLE: f64 = 0.5 * std::f64::consts::PI / 180.0;
+/// Largest difference of the two faces' normal curvatures across an edge, relative to the
+/// larger one (or to 1 / the edge's length where both are flatter), that still counts as one
+/// smooth surface (G2): [`ANGLE`], the same visibility criterion as for the normals. Continued
+/// past the edge, two faces whose curvatures differ by Δκ turn their normals apart by Δκ per
+/// mm; the bound keeps that under [`ANGLE`] over one radius of curvature (Δκ / κ) and over the
+/// edge's own length (Δκ L), so the join leaves no visible kink in reflections either. A join
+/// that is only tangent (G1) is a feature line and stays drawn: a fillet meets its plane with a
+/// jump from 0 to 1 / radius (a relative difference of 1), a cylinder meets a tangent plane the
+/// same way. Pieces of one surface pass: exact pieces agree to rounding, and a modelled thread's
+/// flank pieces (spans of one sweep) differ by at most 0.0046 (measured, the thread test).
+const BEND: f64 = ANGLE;
 /// Below this sine of the angle between ∂S/∂u and ∂S/∂v the normal is undefined (a pole, an
 /// apex): such a station says nothing.
 const DEGENERATE: f64 = 1e-9;
@@ -45,7 +58,7 @@ const ROUNDOFF: f64 = 1e-12;
 /// fit takes its faces for one surface ([`crate::topo::seam_flags`]).
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct Join {
-    /// Every station's normals agree within [`ANGLE`].
+    /// Every station's normals agree within [`ANGLE`] and its curvatures across within [`BEND`].
     smooth: bool,
     /// Some station's normals differ by more than the evaluation can account for: the pcurve
     /// points lie some distance off the edge's curve (measured at the station), and over that
@@ -87,13 +100,34 @@ fn face_evals(record: &Brep) -> Vec<Option<FaceEval>> {
         .collect()
 }
 
-/// A face's point at a station, its outward unit normal there and a bound on its curvature.
+/// A face at a station: its point, outward unit normal, first and second derivatives, and a
+/// bound on its curvature.
 struct Station {
     point: Vec3,
     normal: Vec3,
-    /// The larger principal curvature's size, 1/mm (`None`: no second derivatives, as on a
-    /// revolution, so a crease cannot be told from evaluation error).
+    su: Vec3,
+    sv: Vec3,
+    /// `(S_uu, S_uv, S_vv)`; `None` where the surface has none (a revolution).
+    second: Option<(Vec3, Vec3, Vec3)>,
+    /// The larger principal curvature's size, 1/mm (`None`: no second derivatives, so a crease
+    /// cannot be told from evaluation error).
     curvature: Option<f64>,
+}
+
+impl Station {
+    /// The normal curvature in the tangent direction `w`, 1/mm, signed by the outward normal:
+    /// II(w) / I(w), with `w` written in (u, v) by its projection on the tangent plane.
+    fn across(&self, w: Vec3) -> Option<f64> {
+        let (suu, suv, svv) = self.second?;
+        let (e, f, g) = (self.su.dot(self.su), self.su.dot(self.sv), self.sv.dot(self.sv));
+        let det = e * g - f * f;
+        let (wu, wv) = (self.su.dot(w), self.sv.dot(w));
+        let (a, b) = ((g * wu - f * wv) / det, (e * wv - f * wu) / det);
+        let first = e * a * a + 2. * f * a * b + g * b * b;
+        let (l, m, n) = (suu.dot(self.normal), suv.dot(self.normal), svv.dot(self.normal));
+        let k = (l * a * a + 2. * m * a * b + n * b * b) / first;
+        (det > 0. && first > 0. && k.is_finite()).then_some(k)
+    }
 }
 
 /// `face` at `uv`; `Some(None)` where the normal is undefined there, `None` where it does not
@@ -108,8 +142,9 @@ fn station(face: &FaceEval, uv: [f64; 2]) -> Option<Option<Station>> {
         return Some(None);
     }
     let Some(unit) = n.normalized() else { return Some(None) };
+    let second = face.surface.second(uv[0], uv[1]).filter(|(a, b, c)| a.is_finite() && b.is_finite() && c.is_finite());
     // The principal curvatures, from the shape operator I⁻¹ II: H ± √(H² − K).
-    let curvature = face.surface.second(uv[0], uv[1]).and_then(|(suu, suv, svv)| {
+    let curvature = second.and_then(|(suu, suv, svv)| {
         let (e, f, g) = (su.dot(su), su.dot(sv), sv.dot(sv));
         let (l, m, n) = (suu.dot(unit), suv.dot(unit), svv.dot(unit));
         let det = e * g - f * f;
@@ -118,12 +153,12 @@ fn station(face: &FaceEval, uv: [f64; 2]) -> Option<Option<Station>> {
         let most = mean.abs() + (mean * mean - gauss).max(0.).sqrt();
         (det > 0. && most.is_finite()).then_some(most)
     });
-    Some(Some(Station { point, normal: unit * face.side, curvature }))
+    Some(Some(Station { point, normal: unit * face.side, su, sv, second, curvature }))
 }
 
 /// How the two uses of edge `e` meet: their faces' outward normals compared at [`STATIONS`]
 /// stations, each through its own pcurve.
-fn join(record: &Brep, faces: &[Option<FaceEval>], e: usize, work: &mut usize) -> Join {
+fn join(record: &Brep, faces: &[Option<FaceEval>], e: usize, length: f64, work: &mut usize) -> Join {
     let unknown = Join::default();
     let Some(edge) = record.edges.get(e) else { return unknown };
     let [a, b] = edge.uses.as_slice() else { return unknown };
@@ -152,7 +187,7 @@ fn join(record: &Brep, faces: &[Option<FaceEval>], e: usize, work: &mut usize) -
             return unknown;
         }
         measured = true;
-        smooth &= angle <= ANGLE;
+        smooth &= angle <= ANGLE && same_bend(&sa, &sb, curve.as_ref().and_then(|c| c.derivs(t)).map(|d| d.1), length);
         // How far each evaluated point lies off the edge, measured on the edge's own curve
         // (its tolerance where the curve does not evaluate).
         let off = match curve.as_ref().and_then(|c| c.point(t)).filter(|c| c.is_finite()) {
@@ -165,6 +200,17 @@ fn join(record: &Brep, faces: &[Option<FaceEval>], e: usize, work: &mut usize) -
         crease |= angle > ANGLE;
     }
     if measured { Join { smooth, crease } } else { unknown }
+}
+
+/// Do the two faces bend alike across the edge at a station (G2 there): their normal
+/// curvatures in the direction across the edge (in the tangent plane, square to the edge's
+/// tangent `along`) within [`BEND`] of the larger, or of 1 / `length` where both are flatter
+/// than that? Unknown (no tangent, no second derivatives) is no.
+fn same_bend(a: &Station, b: &Station, along: Option<Vec3>, length: f64) -> bool {
+    let Some(w) = along.and_then(|t| a.normal.cross(t).normalized()) else { return false };
+    let (Some(ka), Some(kb)) = (a.across(w), b.across(w)) else { return false };
+    let scale = ka.abs().max(kb.abs()).max(1. / length);
+    (ka - kb).abs() <= BEND * scale
 }
 
 /// Does the mesh's edge `e` bound the faces the record's edge `e` is used by? A mesh that says
@@ -205,7 +251,9 @@ fn classify(body: &Body, mesh: &Mesh, mut work: usize) -> (Vec<bool>, Vec<bool>)
         } else if !same_faces(&rec, mesh, current) {
             None
         } else {
-            let Join { smooth: tangent, crease } = join(&rec, &faces, current, &mut work);
+            let length: f64 = line.windows(2).map(|w| if let [a, b] = w { a.dist(*b) } else { 0. }).sum();
+            let Join { smooth: tangent, crease } =
+                if length > 0. && length.is_finite() { join(&rec, &faces, current, length, &mut work) } else { Join::default() };
             if let (true, Some(flag)) = (tangent, smooth.get_mut(current)) {
                 *flag = true;
             }
@@ -335,7 +383,8 @@ mod tests {
     #[test]
     fn a_crease_over_half_a_degree_is_visible_and_one_under_it_is_not() {
         let (_, mesh, crease) = creased(1.0);
-        assert_eq!(mesh.smooth_edges.iter().filter(|f| **f).count(), 7);
+        // The crease's other end bends differently too: only six joins are one smooth surface.
+        assert_eq!(mesh.smooth_edges.iter().filter(|f| **f).count(), 6);
         assert!(!mesh.smooth_edges[crease]);
         assert!(mesh.sharp_edges[crease]);
         assert!(mesh.shaded_edge_visible(crease));
@@ -384,9 +433,10 @@ mod tests {
     }
 
     /// A box with its top edges and one upright edge rounded: every round meets its faces and
-    /// its neighbours tangentially, so none of those joins is drawn; the box's own edges are.
+    /// its neighbours tangentially (G1, not G2), so each of those joins is a drawn feature line
+    /// but no crease; the box's own edges and the miters are creases.
     #[test]
-    fn a_filleted_boxs_tangent_joins_are_smooth_and_its_corners_creases() {
+    fn a_filleted_boxs_tangent_joins_are_drawn_and_its_corners_creases() {
         let block = crate::box_solid(Vec3::ZERO, Vec3::new(20., 20., 10.)).unwrap();
         let picks = [Vec3::new(10., 0., 10.), Vec3::new(20., 10., 10.), Vec3::new(10., 20., 10.), Vec3::new(0., 10., 10.), Vec3::new(20., 20., 5.)];
         let rounded = crate::fillet(&block, &picks, 3.).unwrap();
@@ -399,17 +449,38 @@ mod tests {
             let bottom = line.iter().all(|p| p.z.abs() < 1e-6);
             let square_upright = corner(a) && corner(b) && (a.z - b.z).abs() > 1.;
             let miter = (corner(a) && (b.z - 10.).abs() < 1e-6) || (corner(b) && (a.z - 10.).abs() < 1e-6);
-            if bottom || square_upright || miter {
-                assert!(mesh.sharp_edges[i] && mesh.shaded_edge_visible(i), "edge {i} {line:?} is a crease");
-            } else {
-                assert!(
-                    mesh.smooth_edges[i] && !mesh.sharp_edges[i] && !mesh.shaded_edge_visible(i),
-                    "edge {i} {:?}..{:?} is a tangent join",
-                    line.first(),
-                    line.last()
-                );
-                assert!(mesh.edge_pickable(i), "edge {i} stays pickable");
-            }
+            assert!(!mesh.smooth_edges[i] && mesh.shaded_edge_visible(i) && mesh.edge_pickable(i), "edge {i} {a:?}..{b:?} is drawn");
+            assert_eq!(mesh.sharp_edges[i], bottom || square_upright || miter, "edge {i} {a:?}..{b:?}: only the box's edges are creases");
+        }
+    }
+
+    /// A plane tangent to a cylinder (a D-shaped prism): one tangent plane, but the curvature
+    /// jumps from 0 to 1 / radius, so the join is drawn.
+    #[test]
+    fn a_plane_tangent_to_a_cylinder_is_drawn() {
+        let (a, b, c, d) = (Vec2::new(-5., -5.), Vec2::new(5., -5.), Vec2::new(5., 5.), Vec2::new(-5., 5.));
+        let outer = Loop2 {
+            segs: vec![
+                Seg2::Line { a, b },
+                Seg2::Arc { center: Vec2::new(5., 0.), radius: 5., start: -std::f64::consts::FRAC_PI_2, sweep: std::f64::consts::PI },
+                Seg2::Line { a: c, b: d },
+                Seg2::Line { a: d, b: a },
+            ],
+        };
+        let body = crate::extrude(&Plane::XY, &[Region2 { outer, holes: vec![] }], 0., 3.).unwrap().remove(0);
+        let mesh = body.mesh(&crate::MeshTolerance::chord(0.02)).unwrap();
+        let joins: Vec<usize> = (0..mesh.edges.len())
+            .filter(|&i| {
+                let line = &mesh.edges[i];
+                line.first()
+                    .zip(line.last())
+                    .is_some_and(|(p, q)| (p.x - 5.).abs() < 1e-6 && (p.y.abs() - 5.).abs() < 1e-6 && (p.z - q.z).abs() > 2.9)
+            })
+            .collect();
+        assert_eq!(joins.len(), 2, "{:?}", mesh.edges.iter().map(|l| (l.first(), l.last())).collect::<Vec<_>>());
+        for i in joins {
+            assert!(!mesh.smooth_edges[i] && !mesh.sharp_edges[i], "edge {i}: tangent, not curvature continuous, no crease");
+            assert!(mesh.shaded_edge_visible(i) && mesh.edge_pickable(i));
         }
     }
 

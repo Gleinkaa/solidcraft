@@ -928,9 +928,9 @@ fn a_runout_fades_the_groove_out_before_each_shoulder() {
     assert!(e.err().map(|e| e.to_string()).unwrap_or_default().contains("longer than the thread"));
 }
 
-/// A modelled M10 thread's flanks are several B-spline faces per turn; where two of them meet
-/// with one tangent plane the join is left out of the shaded view (still pickable and in the
-/// wireframe), so the flank reads as one surface. The normal angle across each join is measured
+/// A modelled M10 thread's flanks are several B-spline faces per turn (spans of one sweep); where
+/// two of them meet with one tangent plane and one curvature the join is left out of the shaded
+/// view (still pickable and in the wireframe), so the flank reads as one surface. The normal angle across each join is measured
 /// independently (`seam_diagnostics`, projecting stations onto both surfaces).
 #[test]
 fn a_modelled_threads_flank_joins_are_not_drawn() {
